@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<!--
+Check output with <http://tools.ietf.org/tools/idnits/>
+-->
+
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+     please see http://xml.resource.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+     (Here they are set differently than their defaults in xml2rfc v1.35) -->
+
+<!-- give errors regarding ID-nits and DTD validation -->
+<?rfc strict="yes" ?>
+
+<!-- control the table of contents (ToC) -->
+<!-- generate a ToC -->
+<?rfc toc="no"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<?rfc tocdepth="3"?>
+
+<!-- control references -->
+<!-- use anchors instead of numbers for refs, i.e, [RFC2119] instead of [1] -->
+<?rfc symrefs="yes"?>
+<!-- sort the reference entries alphabetically -->
+<?rfc sortrefs="no" ?>
+
+<!-- control vertical white space
+     (using these PIs as follows is recommended by the RFC Editor) -->
+<!-- do not start each main section on a new page -->
+<?rfc compact="yes" ?>
+<!-- keep one blank line between list items -->
+<?rfc subcompact="no" ?>
+
+<!-- encourage use of "xml2rfc" tool -->
+<?rfc rfcprocack="yes" ?>
+<!-- end of list of popular I-D processing instructions -->
+
+<rfc category="info" docName="draft-cheshire-dnssd-roadmap-00" ipr="trust200902">
+
+  <front>
+    <title abbrev='Service Discovery Road Map'>Service Discovery Road Map</title>
+    <author initials='S.' surname='Cheshire' fullname='Stuart Cheshire'>
+      <organization>Apple Inc.</organization>
+      <address>
+        <postal>
+          <street>1 Infinite Loop</street>
+          <city>Cupertino</city>
+          <region>California</region>
+          <code>95014</code>
+          <country>USA</country>
+        </postal>
+        <phone>+1 408 974 3207</phone>
+        <email>cheshire@apple.com</email>
+      </address>
+    </author>
+    <date year='2017' month='March' day='13'/>
+    <area>Internet</area>
+    <workgroup>Internet Engineering Task Force</workgroup>
+    <keyword>Multicast DNS</keyword>
+    <keyword>DNS-Based Service Discovery</keyword>
+    <keyword>RFC</keyword>
+    <keyword>Request for Comments</keyword>
+    <keyword>I-D</keyword>
+    <keyword>Internet-Draft</keyword>
+    <abstract>
+      <t>Over the course of several years, a rich collection of technologies
+      has developed around DNS-Based Service Discovery, described across
+      multiple documents. This "Road Map" document gives an overview of
+      how these separate but related technologies (and their documents) fit
+      together, to facilitate Service Discovery in various environments.</t>
+    </abstract>
+  </front>
+
+  <middle>
+
+    <section title="Road Map">
+      <t>Over the course of several years, a rich collection of technologies has
+      developed around DNS-Based Service Discovery.
+      These various separate but related technologies are described across multiple documents.
+      This "Road Map" document gives an overview of how these technologies (and their documents)
+      fit together to facilitate Service Discovery across a broad range of operating environments,
+      from small scale zero-configuration networks to large scale administered networks,
+      from local area to wide area,
+      and from low-speed wireless links in the kb/s range to high-speed wired links
+      operating at multiple Gb/s.</t>
+
+      <t>The single most important concept in Service Discovery is the
+      namespace specifying how different service types are identified.
+      This is how a client communicates what it needs, and how a server
+      communicates what it offers. For a client to discover a server,
+      client and server need to use the same namespace of service types,
+      otherwise they may actually speak the same application protocol over the
+      air or on the wire, and may in fact be completely compatible, and yet
+      may be unable to detect this because they are using different names
+      to refer to the same actual service. Hence, having a consistent
+      namespace for referring to service types is vital.</t>
+
+      <t>IANA manages the registry
+
+RFC and link to reg
+
+can (and should) be used in any Service Discovery protocol as the vocabulary for describing *all*
+IP-based services.
+
+In this document we focus on the use of the IANA service type registry in conjunction with DNS-Based Service Discovery, though that should not be taken in any way to imply any criticism of other Service Discovery protocols sharing the same namespace of service types. In different circumstances different Service Discovery protocols are appropriate.
+
+For example, for Service Discovery of services potentially available via a Wi-Fi access point, prior to association with that Wi-Fi access point, when no IP link has yet been established, a Service Discovery protocol may use raw 802.11 frames, not necessarily IP, UDP, or DNS-formatted messages. For Service Discovery using peer-to-peer Wi-Fi technologies, without any Wi-Fi access point at all, it may also be preferable to use raw 802.11 frames instead of IP, UDP, or DNS-formatted messages. Service Discovery using IEEE 802.15.4 radios may use yet another over-the-air protocol. What is important is that they all share the same vocabulary to describe all IP-based services, so that client and server software, using agnostic APIs to consume and offer services on the network, has a common language to identify those services, independent of the medium or the particular Service Discovery protocol in use on that medium. Just as TCP/IP runs on many different link layers, and the concept of using an IP address to identify a particular peer is consistent across many different link layers, the concept of using a name from the IANA service type registry to identify a particular service type also needs to be consistent across all IP-supporting link layers.
+
+The three principle Service Discovery operations utilizing service types in the IANA service type registry are:
+
+1. Offer
+2. Discover
+3. Use
+
+DNS-SD provides these three principle operations using DNS records and queries.
+Other Service Discovery protocol achieve the same semantics using different packet formats and mechanisms.
+
+DNS-SD runs on top of either mDNS and uDNS
+
+(Aside, mDNS and uDNS also provide name resolution too, which is convenient)
+
+mDNS includes change announcements (pub/sub)
+
+Can run on Unicast queries, allows queries from afar:
+
+One-shot and/or Polling
+Better: Long lived -- LLQ <xref target="LLQ"/> and/or Push <xref target="PUSH"/>
+
+Push needs long-lived connection, so builds on Session Signaling
+
+Namespace:
+Registered, or ".home" or ".corp" for out-of-the-box default (draft-cheshire-homenet-dot-home-03)
+
+Populating unicast namespace:
+1. Manual
+2. DNS Update
+3. Discovery Proxy -- very dynamic -- therefore benefits from Push (and therefore Session Signaling)
+
+Referral Proxy: (Discovery Broker?)
+Reduces load on leaf Discovery Proxies (possibly in routers or APs with limited CPU)
+One client query can map to three outbound query to three network segments
+Referral Proxy can be big-iron hardware that supports thousands or millions of concurrent connections;
+Lightweight Discovery Proxy in router/AP only needs to support one connection, to the Referral Proxy
+
+Sleepy (and weakly-connected) nodes
+* Sleep Proxy, for nodes that wake with magic packet
+* Advertising Proxy, for weakly-connected nodes, such as on 6LoWPAN 802.15.4 wireless mesh network
+  - Needs to get remote name conflict notifications; support auto-rename?
+
+Zone merging? (Maybe build on Advertising Proxy?)
+
+Ascii art picture?
+
+Best practices:
+lb records, etc.
+Sliding window for AC2 -- Using Discovery Broker
+
+Appendix:
+
+IETF Autoconfig printing example
+
+      </t>
+    </section>
+
+<?rfc needLines="25" ?>
+  </middle>
+
+  <back>
+    <references title="Informative References">
+      <?rfc include="reference.RFC.6760" ?>
+
+      <reference anchor='LLQ'>
+        <front>
+          <title>DNS Long-Lived Queries</title>
+          <author initials='K' surname='Sekar' fullname='Kiren Sekar'><organization /></author>
+          <date year='2006' month='August' day='28' />
+          <abstract><t>This document proposes a method of extending unicast DNS to
+          support long-lived queries, thus allowing clients to learn about changes to
+          DNS data without polling the server.</t></abstract>
+        </front>
+      <seriesInfo name='Internet-Draft' value='draft-sekar-dns-llq-01' />
+      <format type='TXT' target='http://www.ietf.org/internet-drafts/draft-sekar-dns-llq-01.txt' />
+      </reference>
+
+      <reference anchor='PUSH'>
+        <front>
+          <title>DNS Push Notifications</title>
+          <author initials='T' surname='Pusateri' fullname='Tom Pusateri'><organization /></author>
+          <author initials='S' surname='Cheshire' fullname='Stuart Cheshire'><organization /></author>
+          <date year='2017' month='March' day='13'/>
+          <abstract><t>The Domain Name System (DNS) was designed to efficiently return
+          matching records for queries for data that is relatively static. When those
+          records change frequently, DNS is still efficient at returning the updated
+          results when polled.  But there exists no mechanism for a client to be
+          asynchronously notified when these changes occur.  This document defines a
+          mechanism for a client to be notified of such changes to DNS records, called
+          DNS Push Notifications.</t></abstract>
+        </front>
+      <seriesInfo name='Internet-Draft' value='draft-ietf-dnssd-push-10' />
+      <format type='TXT'
+          target='http://www.ietf.org/internet-drafts/draft-ietf-dnssd-push-10.txt' />
+      </reference>
+
+      <reference anchor='HOME'>
+        <front>
+          <title>Special Use Top Level Domain 'home'</title>
+          <author initials='S' surname='Cheshire' fullname='Stuart Cheshire'><organization /></author>
+          <date year='2017' month='March' day='13'/>
+          <abstract><t>This document specifies usage of the top-level
+          domain "home", for names that are meaningful and resolvable
+          within some scope smaller than the entire global Internet, but
+          larger than the single link supported by Multicast DNS.</t></abstract>
+        </front>
+        <seriesInfo name='Internet-Draft' value='draft-cheshire-homenet-dot-home' />
+        <format type='TXT' target='http://www.ietf.org/id/draft-cheshire-homenet-dot-home' />
+      </reference>
+
+      <reference anchor="ZC">
+        <front>
+          <title>Zero Configuration Networking: The Definitive Guide</title>
+          <author initials="S." surname="Cheshire" fullname="Stuart Cheshire"/>
+          <author initials="D.H." surname="Steinberg" fullname="Daniel H. Steinberg"/>
+          <date year="2005" month="December"/>
+        </front>
+        <seriesInfo name="O'Reilly Media, Inc." value=""/>
+        <seriesInfo name="ISBN" value="0-596-10100-7"/>
+      </reference>
+
+    </references>
+  </back>
+</rfc>
