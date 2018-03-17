@@ -39,7 +39,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 <?rfc rfcprocack="yes" ?>
 <!-- end of list of popular I-D processing instructions -->
 
-<rfc category="info" docName="draft-cheshire-dnssd-roadmap-00" ipr="trust200902">
+<rfc category="info" docName="draft-cheshire-dnssd-roadmap-01" ipr="trust200902">
 
   <front>
     <title abbrev='Service Discovery Road Map'>Service Discovery Road Map</title>
@@ -57,7 +57,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
         <email>cheshire@apple.com</email>
       </address>
     </author>
-    <date year='2017' month='July' day='2'/>
+    <date year='2018' month='March' day='18'/>
     <area>Internet</area>
     <workgroup>Internet Engineering Task Force</workgroup>
     <keyword>DNS-Based Service Discovery</keyword>

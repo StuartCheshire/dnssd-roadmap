@@ -4,12 +4,12 @@
 
 Internet Engineering Task Force                              S. Cheshire
 Internet-Draft                                                Apple Inc.
-Intended status: Informational                              July 2, 2017
-Expires: January 3, 2018
+Intended status: Informational                            March 18, 2018
+Expires: September 19, 2018
 
 
                        Service Discovery Road Map
-                    draft-cheshire-dnssd-roadmap-00
+                    draft-cheshire-dnssd-roadmap-01
 
 Abstract
 
@@ -27,23 +27,23 @@ Status of This Memo
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at http://datatracker.ietf.org/drafts/current/.
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 3, 2018.
+   This Internet-Draft will expire on September 19, 2018.
 
 Copyright Notice
 
-   Copyright (c) 2017 IETF Trust and the persons identified as the
+   Copyright (c) 2018 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (http://trustee.ietf.org/license-info) in effect on the date of
+   (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 1]
+Cheshire               Expires September 19, 2018               [Page 1]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 1.  Road Map
@@ -109,9 +109,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 2]
+Cheshire               Expires September 19, 2018               [Page 2]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 2.  Service Type Namespace
@@ -165,9 +165,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 3]
+Cheshire               Expires September 19, 2018               [Page 3]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 3.  Service Discovery Operational Model
@@ -221,9 +221,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 4]
+Cheshire               Expires September 19, 2018               [Page 4]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
    documents is an operation performing the third step.  It only needs
@@ -277,9 +277,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 5]
+Cheshire               Expires September 19, 2018               [Page 5]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 4.  Service Discovery Namespace
@@ -333,9 +333,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 6]
+Cheshire               Expires September 19, 2018               [Page 6]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 5.  Client Configuration and Operation
@@ -389,9 +389,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 7]
+Cheshire               Expires September 19, 2018               [Page 7]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 6.  Server Configuration and Operation
@@ -445,9 +445,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 8]
+Cheshire               Expires September 19, 2018               [Page 8]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
    Finally, when clients are making TCP connections to multiple Service
@@ -501,50 +501,50 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018                [Page 9]
+Cheshire               Expires September 19, 2018               [Page 9]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
 7.  Informative References
 
    [RFC1034]  Mockapetris, P., "Domain names - concepts and facilities",
               STD 13, RFC 1034, DOI 10.17487/RFC1034, November 1987,
-              <http://www.rfc-editor.org/info/rfc1034>.
+              <https://www.rfc-editor.org/info/rfc1034>.
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
-              November 1987, <http://www.rfc-editor.org/info/rfc1035>.
+              November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
    [RFC6281]  Cheshire, S., Zhu, Z., Wakikawa, R., and L. Zhang,
               "Understanding Apple's Back to My Mac (BTMM) Service",
               RFC 6281, DOI 10.17487/RFC6281, June 2011,
-              <http://www.rfc-editor.org/info/rfc6281>.
+              <https://www.rfc-editor.org/info/rfc6281>.
 
    [RFC6760]  Cheshire, S. and M. Krochmal, "Requirements for a Protocol
               to Replace the AppleTalk Name Binding Protocol (NBP)",
               RFC 6760, DOI 10.17487/RFC6760, February 2013,
-              <http://www.rfc-editor.org/info/rfc6760>.
+              <https://www.rfc-editor.org/info/rfc6760>.
 
    [RFC6762]  Cheshire, S. and M. Krochmal, "Multicast DNS", RFC 6762,
               DOI 10.17487/RFC6762, February 2013,
-              <http://www.rfc-editor.org/info/rfc6762>.
+              <https://www.rfc-editor.org/info/rfc6762>.
 
    [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
-              <http://www.rfc-editor.org/info/rfc6763>.
+              <https://www.rfc-editor.org/info/rfc6763>.
 
    [RFC6335]  Cotton, M., Eggert, L., Touch, J., Westerlund, M., and S.
               Cheshire, "Internet Assigned Numbers Authority (IANA)
               Procedures for the Management of the Service Name and
               Transport Protocol Port Number Registry", BCP 165,
               RFC 6335, DOI 10.17487/RFC6335, August 2011,
-              <http://www.rfc-editor.org/info/rfc6335>.
+              <https://www.rfc-editor.org/info/rfc6335>.
 
    [I-D.ietf-homenet-dot]
               Pfister, P. and T. Lemon, "Special Use Domain
-              '.home.arpa'", draft-ietf-homenet-dot-06 (work in
-              progress), June 2017.
+              'home.arpa.'", draft-ietf-homenet-dot-14 (work in
+              progress), September 2017.
 
    [DisProx]  Cheshire, S., "Discovery Proxy for Multicast DNS-Based
               Service Discovery", draft-ietf-dnssd-hybrid-06 (work in
@@ -557,9 +557,9 @@ Internet-Draft         Service Discovery Road Map              July 2017
 
 
 
-Cheshire                 Expires January 3, 2018               [Page 10]
+Cheshire               Expires September 19, 2018              [Page 10]
 
-Internet-Draft         Service Discovery Road Map              July 2017
+Internet-Draft         Service Discovery Road Map             March 2018
 
 
    [S-Sig]    Bellis, R., Cheshire, S., Dickinson, J., Dickinson, S.,
@@ -613,4 +613,4 @@ Author's Address
 
 
 
-Cheshire                 Expires January 3, 2018               [Page 11]
+Cheshire               Expires September 19, 2018              [Page 11]
