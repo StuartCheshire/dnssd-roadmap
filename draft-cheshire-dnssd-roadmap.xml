@@ -69,8 +69,8 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t>Over the course of several years, a rich collection of technologies
       has developed around DNS-Based Service Discovery, described across
       multiple documents. This “Road Map” document gives an overview of
-      how these separate but related technologies (and their documents) fit
-      together, to facilitate Service Discovery in various environments.</t>
+      how these related but separate technologies (and their documents) fit
+      together, to facilitate service discovery in various environments.</t>
     </abstract>
   </front>
 
@@ -79,13 +79,13 @@ Check output with <http://tools.ietf.org/tools/idnits/>
     <section title="Road Map">
       <t><xref target="RFC6763">DNS-Based Service Discovery</xref>
       is a component of Zero Configuration Networking
-      <xref target="RFC6760"/> <xref target="ZC"/> <xref target="Roadmap"/>.</t>
+      <xref target="RFC6760"/> <xref target="ZC"/>.</t>
 
       <t>Over the course of several years, a rich collection of technologies has
       developed around DNS-Based Service Discovery.
-      These various separate but related technologies are described across multiple documents.
+      These various related but separate technologies are described across multiple documents.
       This “Road Map” document gives an overview of how these technologies (and their documents)
-      fit together to facilitate Service Discovery across a broad range of operating environments,
+      fit together to facilitate service discovery across a broad range of operating environments,
       from small scale zero-configuration networks to large scale administered networks,
       from local area to wide area,
       and from low-speed wireless links in the kb/s range to high-speed wired links
@@ -107,61 +107,77 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 <?rfc needLines="30" ?>
     </section>
 
-    <section anchor="Types" title="Service Type Namespace">
+    <section anchor="Types" title="Namespace of Service Types">
 
-      <t>The single most important concept in Service Discovery is the
+      <t>The single most important concept in service discovery is the
       namespace specifying how different service types are identified.
       This is how a client communicates what it needs, and how a server
-      communicates what it offers. For a client to discover a server,
-      client and server need to use the same namespace of service types,
+      communicates what it offers.
+      For a client to discover a server, the client and server need to
+      have a common language to describe what they need and what they offer.
+      The need to use the same namespace of service types,
       otherwise they may actually speak the same application protocol over the
       air or on the wire, and may in fact be completely compatible, and yet
       may be unable to detect this because they are using different names
-      to refer to the same actual service. Hence, having a consistent
-      namespace for referring to service types is vital.</t>
+      to refer to the same actual service.
+      Hence, having a consistent namespace of service types
+      is the essential prerequisite for any useful service discovery.</t>
 
-      <t>IANA manages the registry of Service Types <xref target="RFC6335"/><xref target="SN"/>.
+      <t>IANA manages the registry of Service Types <xref target="RFC6335"/><xref target="STR"/>.
       This registry of Service Types can (and should) be used in any
-      Service Discovery protocol as the vocabulary for describing *all*
+      service discovery protocol as the vocabulary for describing *all*
       IP-based services, not only
       <xref target="RFC6763">DNS-Based Service Discovery</xref>.</t>
 
       <t>In this document we focus on the use of the
-      <xref target="SN">IANA Service Type Registry</xref>
+      <xref target="STR">IANA Service Type Registry</xref>
       in conjunction with DNS-Based Service Discovery, though
       that should not be taken in any way to imply any criticism of
-      other Service Discovery protocols sharing the same namespace of
+      other service discovery protocols sharing the same namespace of
       service types. In different circumstances different Service
       Discovery protocols are appropriate.</t>
 
-      <t>For example, for Service Discovery of services potentially
+      <t>For example, for service discovery of services potentially
       available via a Wi-Fi access point, prior to association with that
       Wi-Fi access point, when no IP link has yet been established, a
-      Service Discovery protocol may use raw 802.11 frames, not
-      necessarily IP, UDP, or DNS-formatted messages. For Service
-      Discovery using peer-to-peer Wi-Fi technologies, without any Wi-Fi
-      access point at all, it may also be preferable to use raw 802.11
-      frames instead of IP, UDP, or DNS-formatted messages. Service
-      Discovery using IEEE 802.15.4 radios may use yet another
-      over-the-air protocol. What is important is that they all share
-      the same vocabulary to describe all IP-based services, so that
+      service discovery protocol may use raw 802.11 frames, not
+      necessarily IP, UDP, or DNS-formatted messages.
+      For Service Discovery using peer-to-peer Wi-Fi technologies, without
+      any Wi-Fi access point at all, it may also be preferable to use
+      raw 802.11 frames instead of IP, UDP, or DNS-formatted messages.
+      Service Discovery using IEEE 802.15.4 radios may use yet another
+      over-the-air protocol.
+      What is important is that they all share
+      the same vocabulary to describe all IP-based services.
+      Using the same service type vocabulary means that
       client and server software, using agnostic APIs to consume and
       offer services on the network, has a common language to identify
       those services, independent of the medium or the particular
-      Service Discovery protocol in use on that medium. Just as TCP/IP
+      service discovery protocol in use on that medium. Just as TCP/IP
       runs on many different link layers, and the concept of using an IP
       address to identify a particular peer is consistent across many
       different link layers, the concept of using a name from the IANA
       Service Type Registry to identify a particular service type also
       needs to be consistent across all IP-supporting link layers.</t>
 
+      <t>Originally, the IANA Service Type Registry
+      <xref target="RFC6335"/><xref target="STR"/>
+      used the term "Service Name" rather than "Service Type".
+      Later it became clear that this term could be ambiguous.
+      For a given service instance on the network,
+      there is the machine-visible name of the type of service it provides,
+      and the human-visible name of the particular instance of that type of service.
+      For clarity, this document and related specifications use the term
+      "Service Type" to denote the machine-visible name of the type of service,
+      and the term "Instance Name" to denote the human-visible name of a particular instance.</t>
+
     </section>
 
     <section title="Service Discovery Operational Model">
 
 <?rfc subcompact="yes" ?>
-      <t>The three principal Service Discovery operations utilizing service types
-      in the <xref target="SN">IANA Service Type Registry</xref> are:
+      <t>The three principal service discovery operations, utilizing service types
+      in the <xref target="STR">IANA Service Type Registry</xref>, are:
         <list style='numbers'>
           <t>Offer</t>
           <t>Discover/Enumerate</t>
@@ -171,10 +187,10 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 <?rfc subcompact="no" ?>
 
       <t>The first step, “Offer”, is when a server is offering a service using some
-      application-layer protocol on a listening TCP or UDP (or other transport protocol)
+      application-layer protocol, on a listening TCP or UDP (or other transport protocol)
       port, and wishes to make that known to other devices.</t>
 
-      <t>The second step, “Discover”, sometimes called, “Enumerate”, is when a client
+      <t>The second step, “Discover” or “Enumerate”, is when a client
       device wishes to perform some action, but does not yet know which particular
       service instance will be used to perform that action.
       For example, when a user taps the “AirPrint” button on an iPhone, the
@@ -187,8 +203,9 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       and determines the best one to use.</t>
 
       <t>The third step, “Use”, is when particular service instance has
-      been selected, and the client wants to make use of that service
-      instance, by opening a TCP connection to it or by sending UDP datagrams.</t>
+      been selected, and the client wants to make use of that service instance,
+      by opening a TCP connection to it, by using some other transport protocol
+      running over UDP, or by other means.</t>
 
       <t>The second and third steps are intentionally separate.
       In the second step, a limited amount of information (typically just the name)
@@ -199,7 +216,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       Requesting all the detailed information about all available
       service instances would be inefficient and wasteful on the network.
       If the information about services on the network is imagined as a table,
-      then the second step is requesting just one column from that table (the names)
+      then the second step is requesting just one column from that table (the name column)
       and the third step is requesting just one row from that table
       (the information pertaining to just one named service instance).</t>
 
@@ -213,7 +230,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       network if the device already knows which one it intends to use.</t>
 
       <t><xref target="RFC6763">DNS-Based Service Discovery</xref>
-      implements these three principal Service Discovery operations using
+      implements these three principal service discovery operations using
       DNS records and queries, either using
       <xref target="RFC6762">Multicast DNS</xref>
       (for queries limited to the local link)
@@ -221,16 +238,17 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       unicast DNS <xref target="RFC1034"/> <xref target="RFC1035"/>
       (for queries beyond the local link).</t>
 
-      <t>Other Service Discovery protocol achieve the same semantics
+      <t>Other service discovery protocol achieve the same semantics
       using different packet formats and mechanisms.</t>
 
-      <t>One incidental benefit of using DNS as the foundation layer is
-      that Multicast DNS and conventional unicast DNS are also used provide
-      name resolution (mapping host names to IP addresses) so there is some
-      efficiency and code reuse in using the same underlying protocol for both
-      naming and service discovery.</t>
+      <t>One incidental benefit of using DNS as the foundation layer
+      for service discovery, in cases where that makes sense, is
+      that both Multicast DNS and conventional unicast DNS are also used provide
+      name resolution (mapping host names to IP addresses).
+      There is some efficiency and code reuse gained by using the same
+      underlying protocol for both service discovery and naming.</t>
 
-      <t>A final requirement is that the Service Discovery protocol perform not only
+      <t>A final requirement is that the service discovery protocol perform not only
       discovery at a single moment in time, but also ongoing change notification
       (sometimes called “Publish &amp; Subscribe”).
       Without support for ongoing change notification, clients would be
@@ -240,7 +258,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t><xref target="RFC6762">Multicast DNS</xref> implicitly includes
       change notification by virtue of announcing record changes via IP Multicast,
       which allows these changes to be seen by all peers on the same link
-      (broadcast domain).</t>
+      (i.e., same broadcast domain).</t>
 
       <t>Conventional unicast DNS <xref target="RFC1034"/> <xref target="RFC1035"/>
       has historically not had broad support for change notification.
@@ -281,7 +299,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       paying for a globally-unique domain name.
       For these people it would be useful if devices arrived preconfigured with
       some suitable factory-default service discovery domain, such as
-      “services.homenet” <xref target="I-D.ietf-homenet-dot"/>.
+      “services.home.arpa” <xref target="I-D.ietf-homenet-dot"/>.
       Services published in this factory-default service discovery domain
       would not be globally unique or globally resolvable, but they could
       have scope larger than the single link provided by Multicast DNS.</t>
@@ -302,20 +320,22 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <t>For discovery beyond the local link, a unicast DNS domain must be used.
       This unicast DNS domain can be configured manually by the user,
-      or it can be learned dynamically from the network (as has been done
-      for many years at IETF meetings to facilitate discovery of the IETF
-      Terminal Room printer from outside the IETF Terminal Room network).
+      or it can be learned dynamically from the network
+      (as has been done for many years at IETF meetings to facilitate discovery
+      of the IETF Terminal Room printer, from outside the IETF Terminal Room).
       In the <xref target="RFC6763">DNS-SD specification</xref> section 11,
       “Discovery of Browsing and Registration Domains (Domain Enumeration)”,
       describes how a client device learns one or more recommended service
-      discovery domains from the network, using the special “lb._dns-sd._udp” query.</t>
+      discovery domains from the network, using the special “lb._dns-sd._udp” query.
+      All of the details from that specification are not repeated here.
+      </t>
 
       <t>Given the service type that the user or client device is seeking
       (see <xref target="Types"/>)
       and one or more service discovery domains to look in, the client then
       sends its DNS queries, and processes the responses.</t>
 
-      <t>For some uses one-shot conventional DNS queries and responses
+      <t>For some uses, one-shot conventional DNS queries and responses
       are perfectly adequate, but for service discovery,
       where a list may be displayed on a screen for a user to see,
       it is desirable to keep that list up to date without the user
@@ -335,9 +355,9 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <xref target="Push">DNS Push Notifications</xref>.</t>
 
       <t>Because DNS Push Notifications is built on top of a DNS TCP connection,
-      rather than inventing its own session signaling mechanisms,
       DNS Push Notifications adopts the conventions specified by
-      <xref target="S-Sig">DNS Session Signaling</xref>.</t>
+      <xref target="DSO">DNS Stateful Operations</xref>
+      rather than inventing its own session management mechanisms.</t>
 
       <t>
       </t>
@@ -362,10 +382,15 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t>Hence it would be convenient to automate this process of populating
       the DNS namespace with relevant service discovery information.
       Two efforts are underway to address this need,
-      the <xref target="DisProx">Service Discovery Proxy</xref> and
-      the <xref target="RegProt">Service Registration Protocol</xref>.</t>
+      the <xref target="DisProx">Service Discovery Proxy</xref>
+      (see <xref target="dp"/>)
+      and
+      the <xref target="RegProt">Service Registration Protocol</xref>
+      (see <xref target="srp"/>).</t>
 
-      <t>The first effort is the
+      <section anchor="dp" title="Service Discovery Proxy">
+
+      <t>The first effort in this area is the
       <xref target="DisProx">Service Discovery Proxy</xref>.
       This technology is designed to work with today’s devices that advertise
       services using Multicast DNS only
@@ -381,7 +406,11 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       notifications as new answers come in, using
       <xref target="DNS-LLQ">DNS Long-Lived Queries</xref> or the newer
       <xref target="Push">DNS Push Notifications</xref> on top of
-      <xref target="S-Sig">DNS Session Signaling</xref>.</t>
+      <xref target="DSO">DNS Stateful Operations</xref>.</t>
+
+      </section>
+
+      <section title="Multicast DNS Discovery Relay">
 
       <t>As an alternative to having to be physically connected to the
       desired network link, a <xref target="DisProx">Service Discovery Proxy</xref>
@@ -392,10 +421,16 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       A single Discovery Proxy in the data center can serve the needs of an
       entire enterprise.
       This is modeled after the DHCP protocol.
-      In simple residential scenarios the DHCP server resides on the local link.
-      In complex enterprise networks, a single DHCP server resides in the
-      data center, using simple lightweight BOOTP relay agents colocated with the
-      routers on each physical link.</t>
+      In simple residential scenarios the DHCP server resides in the
+      home gateway, which is physically attached to the (single) local link.
+      In complex enterprise networks, it is common to have a single centralized
+      DHCP server, which resides in the data center and communicates
+      with a multitude of simple lightweight BOOTP relay agents,
+      implemented in the routers on each physical link.</t>
+
+      </section>
+
+      <section title="Service Discovery Broker">
 
       <t>Finally, when clients are making TCP connections to multiple
       Service Discovery Proxies at the same time, this can be burdensome for
@@ -409,22 +444,36 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       Broker and have the Service Discovery Broker do the hard work
       of issuing multiple queries on behalf of the client.
       And a Service Discovery Broker can shield a Service Discovery Proxy
-      from excessive load by colapsing multiple duplicate queries from
+      from excessive load by collapsing multiple duplicate queries from
       different client down to a single query to the Service Discovery Proxy.</t>
 
-      <t>The second effort in this space, tacking the chalenge
+<?rfc needLines="40" ?>
+      </section>
+
+      <section anchor="srp" title="Service Registration Protocol">
+
+      <t>The second effort in this area (tackling the challenge
       of automating the process of populating the DNS namespace
-      with relevant service discovery information, is the
+      with relevant service discovery information) is the
       <xref target="RegProt">Service Registration Protocol</xref>.
-      This technology is designed to work with future devices that explicitly
-      cooperate with the network to advertise their services.</t>
+      This technology is designed to enable future devices that will explicitly
+      cooperate with the network infrastructure to advertise their services.</t>
 
       <t>The Service Registration Protocol is effectively DNS Update,
       with some minor additions.</t>
 
       <t>One addition is the introduction of a lifetime on DNS Updates,
       using the the
-      <xref target="DNS-UL">Dynamic DNS Update Lease EDNS(0) option</xref>.</t>
+      <xref target="DNS-UL">Dynamic DNS Update Lease EDNS(0) option</xref>.
+      This option has similar semantics to a DHCP address lease,
+      where a device is granted an address with with a certain lease lifetime,
+      and if the device fails to renew the lease before it expires then the address
+      will be reclaimed and become available to be allocated to a different device.
+      In cases where DHCP is being used, a device will generally request a
+      DNS Update Lease with the same expiration time as its DHCP address lease.
+      This way, if the device is abruptly disconnected from the network,
+      around the same time as its address gets reclaimed
+      its DNS records will also be garbage collected.</t>
 
       <t>The second addition is the introduction of information
       that tells the Service Registration server that the device
@@ -445,6 +494,8 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       beneficial for battery-powered devices in the home.</t>
 
 <?rfc needLines="25" ?>
+      </section>
+
     </section>
 
   </middle>
@@ -463,16 +514,15 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <?rfc include="reference.I-D.ietf-dnssd-hybrid"           anchor='DisProx' ?>
       <?rfc include="reference.I-D.ietf-dnssd-push"             anchor='Push' ?>
-      <?rfc include="reference.I-D.ietf-dnsop-session-signal"   anchor='S-Sig' ?>
+      <?rfc include="reference.I-D.ietf-dnsop-session-signal"   anchor='DSO' ?>
       <?rfc include="reference.I-D.sekar-dns-ul"                anchor='DNS-UL' ?>
       <?rfc include="reference.I-D.sekar-dns-llq"               anchor='DNS-LLQ' ?>
-      <?rfc include="reference.I-D.cheshire-dnssd-roadmap"      anchor='Roadmap' ?>
       <?rfc include="reference.I-D.cheshire-edns0-owner-option" anchor='Owner' ?>
       <?rfc include="reference.I-D.sctl-service-registration"   anchor='RegProt' ?>
       <?rfc include="reference.I-D.sctl-dnssd-mdns-relay"       anchor='Relay' ?>
       <?rfc include="reference.I-D.sctl-discovery-broker"       anchor='Broker' ?>
 
-     <reference anchor="SN"
+     <reference anchor="STR"
      target="http://www.iana.org/assignments/service-names-port-numbers/">
        <front>
          <title>Service Name and Transport Protocol Port Number Registry</title>
