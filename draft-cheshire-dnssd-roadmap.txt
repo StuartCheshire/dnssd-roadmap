@@ -184,13 +184,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
    address and port, and then, having done that, "connect" to that IP
    address and port.
 
-   More recent thinking in this area has come to the conclusion that it
-   is preferable wherever possible to insulate application software from
-   networking details like having to decide between IPv4 and IPv6,
-   having to decide among multiple IP addresses of either or both
-   address families, and having to decide among multiple available
-   network interfaces [RFC8305].  Consequently this document and related
-   specifications adopt newer terminology as follows:
+   More recent thinking in this area [RFC8305] has come to the
+   conclusion that it is preferable wherever possible to insulate
+   application software from networking details like having to decide
+   between IPv4 and IPv6, having to decide among multiple IP addresses
+   of either or both address families, and having to decide among
+   multiple available network interfaces.  Consequently this document
+   and related specifications adopt newer terminology as follows:
 
    1.  Offer
    2.  Enumerate
@@ -207,11 +207,11 @@ Internet-Draft         Service Discovery Road Map             March 2018
    The second step, "Enumerate", is when a client device wishes to
    perform some action, but does not yet know which particular service
    instance will be used to perform that action.  For example, when a
-   user taps the "AirPrint" button on an iPhone, the iPhone knows that
-   the user wishes to print, but not which particular printer to use.
-   The desired *function* is known (IPP printing), but not the
-   particular instance.  In this case, the client device needs to
-   enumerate the list of available service instances that are able to
+   user taps the "AirPrint" button on an iPhone or iPad, the iPhone or
+   iPad knows that the user wishes to print, but not which particular
+   printer to use.  The desired *function* is known (IPP printing), but
+   not the particular instance.  In this case, the client device needs
+   to enumerate the list of available service instances that are able to
    perform the desired task.  In most cases this list of service
    instances is presented to a human user to choose from; in some cases
    it is software that examines the list of available service instances
@@ -251,12 +251,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
    To give an example, clicking the "+" button in the printer settings
    on macOS is an operation performing the second step.  It is
-   requesting the names of all available printers.  Once a print queue
-   has been configured for the chosen printer, subsequent printing of
+   requesting the names of all available printers.  Once a desired
+   printer has been chosen and configured, subsequent printing of
    documents is an operation performing the third step.  It only needs
    to request information about the specific printer in question.  It is
    not necessary to repeatedly discover the list of every printer on the
-   network if the device already knows which one it intends to use.
+   network if the client device already knows which one it intends to
+   use.
 
    DNS-Based Service Discovery [RFC6763] implements these three
    principal service discovery operations using DNS records and queries,
@@ -276,14 +277,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
 Cheshire               Expires September 19, 2018               [Page 5]
 
 Internet-Draft         Service Discovery Road Map             March 2018
 
 
    A final requirement is that the service discovery protocol perform
-   not only discovery at a single moment in time, but also ongoing
+   discovery not only at a single moment in time, but also ongoing
    change notification (sometimes called "Publish & Subscribe").
    Without support for ongoing change notification, clients would be
    forced to resort to polling to keep data up to date, which is
@@ -601,12 +601,12 @@ Internet-Draft         Service Discovery Road Map             March 2018
    messages allows devices to sleep to save power, which is especially
    beneficial for battery-powered devices in the home.
 
+7.  Security Considerations
 
-
-
-
-
-
+   As an informational document, this document introduces no new
+   Security Considerations of its own.  The various referenced documents
+   each describe their own relevant Security Considerations as
+   appropriate.
 
 
 
@@ -618,7 +618,7 @@ Cheshire               Expires September 19, 2018              [Page 11]
 Internet-Draft         Service Discovery Road Map             March 2018
 
 
-7.  Informative References
+8.  Informative References
 
    [RFC1034]  Mockapetris, P., "Domain names - concepts and facilities",
               STD 13, RFC 1034, DOI 10.17487/RFC1034, November 1987,

@@ -190,11 +190,11 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       Similarly, a client would first "resolve" a service instance to an IP address
       and port, and then, having done that, "connect" to that IP address and port.</t>
 
-      <t>More recent thinking in this area has come to the conclusion that it is
-      preferable wherever possible to insulate application software from networking
-      details like having to decide between IPv4 and IPv6, having to decide among
-      multiple IP addresses of either or both address families, and having to
-      decide among multiple available network interfaces <xref target="RFC8305"/>.
+      <t>More recent thinking in this area <xref target="RFC8305"/> has come to
+      the conclusion that it is preferable wherever possible to insulate application
+      software from networking details like having to decide between IPv4 and IPv6,
+      having to decide among multiple IP addresses of either or both address
+      families, and having to decide among multiple available network interfaces.
       Consequently this document and related specifications adopt newer terminology as follows:
         <list style='numbers'>
           <t>Offer</t>
@@ -214,8 +214,8 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t>The second step, “Enumerate”, is when a client
       device wishes to perform some action, but does not yet know which particular
       service instance will be used to perform that action.
-      For example, when a user taps the “AirPrint” button on an iPhone, the
-      iPhone knows that the user wishes to print, but not which particular printer to use.
+      For example, when a user taps the “AirPrint” button on an iPhone or iPad, the
+      iPhone or iPad knows that the user wishes to print, but not which particular printer to use.
       The desired *function* is known (IPP printing), but not the particular instance.
       In this case, the client device needs to enumerate the list of available
       service instances that are able to perform the desired task.
@@ -252,11 +252,11 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t>To give an example, clicking the “+” button in the printer settings on macOS
       is an operation performing the second step.
       It is requesting the names of all available printers.
-      Once a print queue has been configured for the chosen printer,
+      Once a desired printer has been chosen and configured,
       subsequent printing of documents is an operation performing the third step.
       It only needs to request information about the specific printer in question.
       It is not necessary to repeatedly discover the list of every printer on the
-      network if the device already knows which one it intends to use.</t>
+      network if the client device already knows which one it intends to use.</t>
 
       <t><xref target="RFC6763">DNS-Based Service Discovery</xref>
       implements these three principal service discovery operations using
@@ -277,8 +277,8 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       There is some efficiency and code reuse gained by using the same
       underlying protocol for both service discovery and naming.</t>
 
-      <t>A final requirement is that the service discovery protocol perform not only
-      discovery at a single moment in time, but also ongoing change notification
+      <t>A final requirement is that the service discovery protocol perform discovery
+      not only at a single moment in time, but also ongoing change notification
       (sometimes called “Publish &amp; Subscribe”).
       Without support for ongoing change notification, clients would be
       forced to resort to polling to keep data up to date, which is
@@ -525,9 +525,15 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       messages allows devices to sleep to save power, which is especially
       beneficial for battery-powered devices in the home.</t>
 
-<?rfc needLines="25" ?>
       </section>
+    </section>
 
+    <section anchor="security" title="Security Considerations">
+      <t> As an informational document, this document
+      introduces no new Security Considerations of its own.
+      The various referenced documents each describe their
+      own relevant Security Considerations as appropriate.</t>
+<?rfc needLines="25" ?>
     </section>
 
   </middle>
