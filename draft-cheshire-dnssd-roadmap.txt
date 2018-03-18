@@ -412,6 +412,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
    client device learns one or more recommended service discovery
    domains from the network, using the special "lb._dns-sd._udp" query.
    All of the details from that specification are not repeated here.
+   A walk-through describing one real-world example of how this works,
+   using discovery of the IETF Terminal Room printer as a specific
+   concrete case study, is given in Appendix A.
 
    Given the service type that the user or client device is seeking (see
    Section 2) and one or more service discovery domains to look in, the
@@ -437,9 +440,6 @@ Internet-Draft         Service Discovery Road Map             March 2018
    connection, DNS Push Notifications adopts the conventions specified
    by DNS Stateful Operations [DSO] rather than inventing its own
    session management mechanisms.
-
-
-
 
 
 
@@ -712,6 +712,304 @@ Internet-Draft         Service Discovery Road Map             March 2018
               Networking: The Definitive Guide", O'Reilly Media, Inc. ,
               ISBN 0-596-10100-7, December 2005.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 13]
+
+Internet-Draft         Service Discovery Road Map             March 2018
+
+
+Appendix A.  IETF Terminal Room Printer Discovery Walk-through
+
+   For about a decade now, the capable IETF network staff have provided
+   off-link DNS Service Discovery for the Terminal Room printer at IETF
+   meetings three times a year.  In the case of the IETF meetings the
+   necessary DNS records are entered manually, whereas this document
+   advocates for increased automation of that task, but the process by
+   which clients query to discover services is the same either way.
+
+   This appendix gives a detailed step-by step account of how this
+   works.  It starts with joining the Wi-Fi network and doing a DHCP
+   request, and ends with paper coming out of the printer.  The reason
+   the explanation is so detailed is to avoid inadvertently having a
+   hand-waving "and then a miracle occurs" part, which skips over
+   important details.  And one of the reasons for asking the IETF
+   network team to set this up for IETF meetings is that operational use
+   is an important reality check.  When standing in front of a room,
+   giving a presentation, if you miss out some vital step, people may
+   not notice.  When running an actual service used by actual people, if
+   you miss out some vital step, no paper comes out of the printer, and
+   everyone notices.
+
+   Using a macOS computer, at an IETF meeting, you can repeat the steps
+   illustrated here to see exactly how it works.  Or you can simply
+   press Cmd-P in any application and see that "term-printer" appears as
+   an available printer, to confirm that it does in fact work.
+
+   First, let's see what the macOS computer learned from the local DHCP
+   server:
+
+     % scutil
+     > list
+      ...
+      subKey [74] = State:/Network/Service/21B5304C...54B28F4CA1D2/DHCP
+      ...
+
+     > show State:/Network/Service/21B5304C...54B28F4CA1D2/DHCP
+     <dictionary> {
+      Option_15 : <data> 0x6d656574696e672e696574662e6f7267
+      ...
+     }
+
+   Option_15 is Domain Name.  To see what domain name, we need to decode
+   the hexadecimal data to ASCII.
+
+     % echo 6d656574696e672e696574662e6f7267 0A | xxd -r -p
+     meeting.ietf.org
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 14]
+
+Internet-Draft         Service Discovery Road Map             March 2018
+
+
+   Our DHCP domain name is meeting.ietf.org.  Does meeting.ietf.org
+   recommend that we look in any Wide Area Service Discovery domains?
+
+     % dig lb._dns-sd._udp.meeting.ietf.org. ptr
+
+     ; <<>> DiG 9.6-ESV-R4-P3 <<>> lb._dns-sd._udp.meeting.ietf.org. ptr
+     ;; global options: +cmd
+     ;; Got answer:
+     ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35624
+     ;; flags: qr aa rd ra;
+                        QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 4
+
+     ;; QUESTION SECTION:
+     ;lb._dns-sd._udp.meeting.ietf.org. IN PTR
+
+     ;; ANSWER SECTION:
+     lb._dns-sd._udp.meeting.ietf.org. 3600 IN PTR meeting.ietf.org.
+
+     ...
+
+     ;; Query time: 8 msec
+     ;; SERVER: 130.129.5.6#53(130.129.5.6)
+     ;; WHEN: Wed Mar 13 10:16:40 2013
+     ;; MSG SIZE  rcvd: 188
+
+   In the middle there you'll see that the answer is "meeting.ietf.org".
+   In this case the answer is self-referential -- "meeting.ietf.org" is
+   inviting us to look for services in "meeting.ietf.org", but the PTR
+   record(s) could equally well point at any other domain, such as
+   "services.ietf.org", or anything else.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 15]
+
+Internet-Draft         Service Discovery Road Map             March 2018
+
+
+   Note that this answer does not depend on the client device being "on"
+   the IETF meeting network, which is in any case a loosely defined
+   concept at best.  Nor does it depend on sending the DNS query to a
+   DNS server that is "on" the IETF meeting network.  Any capable DNS
+   recursive resolver anywhere on the planet will give the same answer.
+   We can test this by sending the same DNS query to Google's 8.8.8.8
+   public resolver:
+
+     % dig @8.8.8.8 lb._dns-sd._udp.meeting.ietf.org. ptr
+
+     ; <<>> DiG 9.6-ESV-R4-P3 <<>>
+                          @8.8.8.8 lb._dns-sd._udp.meeting.ietf.org. ptr
+     ; (1 server found)
+     ;; global options: +cmd
+     ;; Got answer:
+     ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 24571
+     ;; flags: qr rd ra; QUERY:1, ANSWER:1, AUTHORITY:0, ADDITIONAL:0
+
+     ;; QUESTION SECTION:
+     ;lb._dns-sd._udp.meeting.ietf.org. IN PTR
+
+     ;; ANSWER SECTION:
+     lb._dns-sd._udp.meeting.ietf.org. 1532 IN PTR meeting.ietf.org.
+
+     ;; Query time: 21 msec
+     ;; SERVER: 8.8.8.8#53(8.8.8.8)
+     ;; WHEN: Wed Mar 13 10:18:27 2013
+     ;; MSG SIZE  rcvd: 64
+
+   In the middle there you'll see that the answer is still
+   "meeting.ietf.org".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 16]
+
+Internet-Draft         Service Discovery Road Map             March 2018
+
+
+   In this example, this particular test was done at the 86th IETF in
+   Orlando, Florida, in March 2013.  The Google 8.8.8.8 public resolver
+   still gave the correct answer, even though it was 13 hops away:
+
+     % traceroute -q 1 8.8.8.8
+     traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 52 byte packets
+     1  rtra (130.129.80.2)  1.369 ms
+     2  75-112-170-148.net.bhntampa.com (75.112.170.148)  14.494 ms
+     3  bun2.tamp20-car1.bhn.net (71.44.3.73)  19.558 ms
+     4  hun0-0-0-0-tamp20-cbr1.bhn.net (72.31.117.156)  20.730 ms
+     5  xe-8-2-0.bar1.tampa1.level3.net (4.53.172.9)  13.052 ms
+     6  ae-5-5.ebr1.miami1.level3.net (4.69.148.213)  27.413 ms
+     7  ae-1-51.edge1.miami2.level3.net (4.69.138.75)  15.552 ms
+     8  google-inc.edge1.miami2.level3.net (4.59.240.26)  48.852 ms
+     9  209.85.253.118 (209.85.253.118)  21.118 ms
+     10  216.239.48.192 (216.239.48.192)  21.890 ms
+     11  216.239.48.192 (216.239.48.192)  23.221 ms
+     12  *
+     13  google-public-dns-a.google.com (8.8.8.8)  32.961 ms
+
+   For the rest of this example we use the Google 8.8.8.8 public
+   resolver for all the queries.
+
+   In the case of IETF meetings the PTR is self-referential --
+   meeting.ietf.org is advising us to look in meeting.ietf.org, but it
+   could easily be set up to direct us elsewhere.  However, since it's
+   suggesting we look for services in meeting.ietf.org, we'll do that.
+
+   A macOS computer with appropriate printer drivers installed will look
+   for instances of the "_pdl-datastream._tcp" service type at
+   "meeting.ietf.org":
+
+     % dig +short @8.8.8.8 _pdl-datastream._tcp.meeting.ietf.org. ptr
+     term-printer._pdl-datastream._tcp.meeting.ietf.org.
+
+   There's one printing service available here, called "term-printer".
+   That's what you see when you press the "+" button in the Print & Fax
+   Preference Pane on macOS.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 17]
+
+Internet-Draft         Service Discovery Road Map             March 2018
+
+
+   When the user actually prints something, macOS does these queries:
+
+     % dig +short @8.8.8.8 \
+                 term-printer._pdl-datastream._tcp.meeting.ietf.org. srv
+     0 0 9100 term-printer.meeting.ietf.org.
+
+     % dig +short @8.8.8.8 term-printer.meeting.ietf.org. AAAA
+     2001:df8::48:200:74ff:fee0:6cf8
+
+   This tells the computer that to use this printer, it must connect to
+   [2001:df8::48:200:74ff:fee0:6cf8]:9100, using the installed printer
+   driver, which speaks the appropriate vendor-specific printing
+   protocol for that printer.
+
+   Printing from an iPhone or iPad is similar, except there are no
+   vendor-specific printer drivers installed.  Instead, printing from an
+   iPhone or iPad uses the IETF Standard IPP printing protocol, using an
+   IPP printer that supports at least URF (Universal Raster Format):
+
+     % dig +short @8.8.8.8 \
+                         _universal._sub._ipp._tcp.meeting.ietf.org. ptr
+     term-printer._ipp._tcp.meeting.ietf.org.
+
+   An iPhone or iPad will discover that there's one IPP-based printing
+   service available here, called "term-printer".  It has the same name
+   as the pdl-datastream printing service, and exists on the same
+   physical hardware, but uses a different printing protocol.
+
+   When the user prints from their iPhone or iPad using AirPrint, iOS
+   does these queries:
+
+     % dig +short @8.8.8.8 term-printer._ipp._tcp.meeting.ietf.org. srv
+     0 0 631 term-printer.meeting.ietf.org.
+
+     % dig +short @8.8.8.8 term-printer.meeting.ietf.org. aaaa
+     2001:df8::48:200:74ff:fee0:6cf8
+
+   Note that the "_ipp._tcp" service has the same target hostname and
+   IPv6 address as the "_pdl-datastream" service, but is accessed at a
+   different TCP port on that hardware device.
+
+   To use this printer, the iPhone or iPad connects to
+   [2001:df8::48:200:74ff:fee0:6cf8]:631, and uses IPP to print.
+
+
+
+
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 18]
+
+Internet-Draft         Service Discovery Road Map             March 2018
+
+
 Author's Address
 
    Stuart Cheshire
@@ -725,4 +1023,42 @@ Author's Address
 
 
 
-Cheshire               Expires September 19, 2018              [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire               Expires September 19, 2018              [Page 19]
