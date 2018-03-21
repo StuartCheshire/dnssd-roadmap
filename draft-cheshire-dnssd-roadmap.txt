@@ -664,8 +664,8 @@ Internet-Draft         Service Discovery Road Map             March 2018
               progress), September 2017.
 
    [DisProx]  Cheshire, S., "Discovery Proxy for Multicast DNS-Based
-              Service Discovery", draft-ietf-dnssd-hybrid-06 (work in
-              progress), March 2017.
+              Service Discovery", draft-ietf-dnssd-hybrid-08 (work in
+              progress), March 2018.
 
 
 
@@ -675,11 +675,11 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
    [Push]     Pusateri, T. and S. Cheshire, "DNS Push Notifications",
-              draft-ietf-dnssd-push-12 (work in progress), July 2017.
+              draft-ietf-dnssd-push-14 (work in progress), March 2018.
 
    [DSO]      Bellis, R., Cheshire, S., Dickinson, J., Dickinson, S.,
-              Mankin, A., and T. Pusateri, "DNS Stateful Operations",
-              draft-ietf-dnsop-session-signal-06 (work in progress),
+              Lemon, T., and T. Pusateri, "DNS Stateful Operations",
+              draft-ietf-dnsop-session-signal-07 (work in progress),
               March 2018.
 
    [DNS-UL]   Sekar, K., "Dynamic DNS Update Leases", draft-sekar-dns-
@@ -697,8 +697,8 @@ Internet-Draft         Service Discovery Road Map             March 2018
               registration-00 (work in progress), July 2017.
 
    [Relay]    Cheshire, S. and T. Lemon, "Multicast DNS Discovery
-              Relay", draft-sctl-dnssd-mdns-relay-00 (work in progress),
-              July 2017.
+              Relay", draft-sctl-dnssd-mdns-relay-04 (work in progress),
+              March 2018.
 
    [Broker]   Cheshire, S. and T. Lemon, "Service Discovery Broker",
               drdraft-sctl-discovery-broker-00 (work in progress), July
