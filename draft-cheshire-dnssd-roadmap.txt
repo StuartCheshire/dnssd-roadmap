@@ -926,6 +926,34 @@ Internet-Draft         Service Discovery Road Map           October 2018
    could easily be set up to direct us elsewhere.  However, since it's
    suggesting we look for services in meeting.ietf.org, we'll do that.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire                 Expires April 25, 2019                [Page 17]
+
+Internet-Draft         Service Discovery Road Map           October 2018
+
+
 A.2.  Instance Enumeration using PTR queries on a macOS computer
 
    Once one or more service discovery domains have been determined, the
@@ -946,13 +974,6 @@ A.2.  Instance Enumeration using PTR queries on a macOS computer
    There's one printing service available here, called "term-printer".
    That's what you see when you press the "+" button in the Print & Fax
    Preference Pane on macOS.
-
-
-
-Cheshire                 Expires April 25, 2019                [Page 17]
-
-Internet-Draft         Service Discovery Road Map           October 2018
-
 
 A.3.  Printing from a macOS computer
 
@@ -976,6 +997,18 @@ A.3.  Printing from a macOS computer
    [2001:df8::48:200:74ff:fee0:6cf8]:9100, using the installed printer
    driver, which speaks the appropriate vendor-specific printing
    protocol for that printer.
+
+
+
+
+
+
+
+
+Cheshire                 Expires April 25, 2019                [Page 18]
+
+Internet-Draft         Service Discovery Road Map           October 2018
+
 
 A.4.  Instance Enumeration using PTR queries on an iOS device
 
@@ -1002,14 +1035,6 @@ A.5.  Printing from an iOS device
    When the user prints from their iPhone or iPad using AirPrint, iOS
    does these DNS SRV and address queries:
 
-
-
-
-Cheshire                 Expires April 25, 2019                [Page 18]
-
-Internet-Draft         Service Discovery Road Map           October 2018
-
-
      % dig +short @8.8.8.8 term-printer._ipp._tcp.meeting.ietf.org. srv
      0 0 631 term-printer.meeting.ietf.org.
 
@@ -1022,31 +1047,6 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
    To use this printer, the iPhone or iPad connects to
    [2001:df8::48:200:74ff:fee0:6cf8]:631, and uses IPP to print.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

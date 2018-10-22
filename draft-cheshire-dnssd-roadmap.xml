@@ -763,9 +763,9 @@ Check output with <http://tools.ietf.org/tools/idnits/>
         However, since it’s suggesting we look for services in
         meeting.ietf.org, we'll do that.</t>
 
+<?rfc needLines="30" ?>
       </section>
 
-<?rfc needLines="30" ?>
       <section title="Instance Enumeration using PTR queries on a macOS computer">
 
         <t>Once one or more service discovery domains have been determined,
@@ -790,7 +790,6 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       </section>
 
-<?rfc needLines="30" ?>
       <section title="Printing from a macOS computer">
 
         <t>When the user actually prints something, macOS sends a DNS SRV query
@@ -815,9 +814,9 @@ Check output with <http://tools.ietf.org/tools/idnits/>
         using the installed printer driver, which speaks the appropriate
         vendor-specific printing protocol for that printer.</t>
 
+<?rfc needLines="30" ?>
       </section>
 
-<?rfc needLines="30" ?>
       <section title="Instance Enumeration using PTR queries on an iOS device">
 
         <t>Printing from an iPhone or iPad is similar, except there are no
