@@ -39,7 +39,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 <?rfc rfcprocack="yes" ?>
 <!-- end of list of popular I-D processing instructions -->
 
-<rfc category="info" docName="draft-cheshire-dnssd-roadmap-01" ipr="trust200902">
+<rfc category="info" docName="draft-cheshire-dnssd-roadmap-02" ipr="trust200902">
 
   <front>
     <title abbrev='Service Discovery Road Map'>Service Discovery Road Map</title>
@@ -57,7 +57,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
         <email>cheshire@apple.com</email>
       </address>
     </author>
-    <date year='2018' month='March' day='18'/>
+    <date year='2018' month='October' day='22'/>
     <area>Internet</area>
     <workgroup>Internet Engineering Task Force</workgroup>
     <keyword>DNS-Based Service Discovery</keyword>
@@ -114,7 +114,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       communicates what it offers.
       For a client to discover a server, the client and server need to
       have a common language to describe what they need and what they offer.
-      The need to use the same namespace of service types,
+      They need to use the same namespace of service types,
       otherwise they may actually speak the same application protocol over the
       air or on the wire, and may in fact be completely compatible, and yet
       may be unable to detect this because they are using different names
@@ -138,7 +138,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <t>For example, for service discovery of services potentially
       available via a Wi-Fi access point, prior to association with that
-      Wi-Fi access point, when no IP link has yet been established, a
+      Wi-Fi access point, when no IP communication has yet been established, a
       service discovery protocol may use raw 802.11 frames, not
       necessarily IP, UDP, or DNS-formatted messages.
       For Service Discovery using peer-to-peer Wi-Fi technologies, without
@@ -177,7 +177,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
 <?rfc subcompact="yes" ?>
       <t>The original
-      <xref target="RFC6763">DNS-Based Service Discovery specifications</xref>
+      <xref target="RFC6763">DNS-Based Service Discovery specification</xref>
       used the terms
       "register" (advertise a service),
       "browse" (discover service instances), and
@@ -219,7 +219,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       The desired *function* is known (IPP printing), but not the particular instance.
       In this case, the client device needs to enumerate the list of available
       service instances that are able to perform the desired task.
-      In most cases this list of service instances is presented to a human user to choose from;
+      In some cases this list of service instances is presented to a human user to choose from;
       in some cases it is software that examines the list of available service instances
       and determines the best one to use.
       This second step is the operation that was called "browsing"
@@ -249,14 +249,24 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       and the third step is requesting just one row from that table
       (the information pertaining to just one named service instance).</t>
 
-      <t>To give an example, clicking the “+” button in the printer settings on macOS
+      <t>To give a concrete example, clicking the “+” button in the printer settings on macOS
       is an operation performing the second step.
       It is requesting the names of all available printers.
-      Once a desired printer has been chosen and configured,
+      Depending on the specific use case, this step may be performed only rarely.
+      For example, a user may do this just one once, the first time they
+      configure their computer to use their preferred printer, and never again.</t>
+
+      <t>Once a desired printer has been chosen and configured,
       subsequent printing of documents is an operation performing the third step.
-      It only needs to request information about the specific printer in question.
-      It is not necessary to repeatedly discover the list of every printer on the
-      network if the client device already knows which one it intends to use.</t>
+      This step may be done frequently, perhaps multiple times per day.
+      This third step is important because, in a world of DHCP, IPv6 Stateless Autoconfiguration,
+      and similar dynamic address allocation schemes, a printer's IP address could change from
+      day to day, and to use the printer, its current address must be known.
+      However, this third step need not be performed for every printer on the network,
+      just the specific printer that is about to be used.
+      Also, it is not necessary to repeat the second step again,
+      learning the names of every printer on the network,
+      if the client device already knows the name of the printer it intends to use.</t>
 
       <t><xref target="RFC6763">DNS-Based Service Discovery</xref>
       implements these three principal service discovery operations using
@@ -277,15 +287,17 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       There is some efficiency and code reuse gained by using the same
       underlying protocol for both service discovery and naming.</t>
 
-      <t>A final requirement is that the service discovery protocol perform discovery
-      not only at a single moment in time, but also ongoing change notification
+      <t>A final requirement is that the service discovery protocol should not only perform discovery
+      at a single moment in time, but should also provide ongoing change notification
       (sometimes called “Publish &amp; Subscribe”).
+      Clients need to be notified in a timely fashion when new data of interest appears,
+      when data of interest changes, and, equally importantly, when data of interest goes away ("goodbye packets").
       Without support for ongoing change notification, clients would be
       forced to resort to polling to keep data up to date, which is
       inefficient and wasteful on the network.</t>
 
       <t><xref target="RFC6762">Multicast DNS</xref> implicitly includes
-      change notification by virtue of announcing record changes via IP Multicast,
+      change notification by virtue of announcing record creation, update, and deletion, via IP Multicast,
       which allows these changes to be seen by all peers on the same link
       (i.e., same broadcast domain).</t>
 
@@ -296,13 +308,13 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <t>When using <xref target="RFC6763">DNS-Based Service Discovery</xref>
       there are two aspects to consider:
-      firstly how the clients choose what DNS names to query, and what query mechanisms to use,
+      firstly how the clients determine the appropriate DNS names to query (and what query mechanisms to use)
       and secondly how the relevant information got into the DNS namespace in
       the first place, so as to be available when clients query for it.</t>
 
-      <t>The available namespaces are discussed below in <xref target="Namespace"/>.
-      Client operation is discussed in <xref target="Client"/> and
-      server operation is discussed in <xref target="Server"/>.</t>
+      <t>The available namespaces are discussed broadly in <xref target="Namespace"/> below.
+      Client operation is then discussed in detail in <xref target="Client"/>, and
+      server operation is discussed in detail in <xref target="Server"/>.</t>
 
       <t>
       </t>
@@ -312,7 +324,8 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
     <section anchor="Namespace" title="Service Discovery Namespace">
       <t>When used with <xref target="RFC6762">Multicast DNS</xref>
-      queries are automatically performed in the “.local” parent domain.</t>
+      Service Discovery queries necessarily use the “.local” parent domain
+      reserved for this purpose <xref target="SUDN"/>.</t>
 
       <t>When used with conventional
       unicast DNS <xref target="RFC1034"/> <xref target="RFC1035"/>
@@ -323,14 +336,14 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       their globally-unique domain name,
       or a subdomain of it, can be used for service discovery.</t>
 
-      <t>However, it would be convenient for capable service discovery to be
+      <t>However, it would be convenient for advanced service discovery to be
       available even to people who haven’t taken the step of registering and
-      paying for a globally-unique domain name.
+      paying annually for a globally-unique domain name.
       For these people it would be useful if devices arrived preconfigured with
       some suitable factory-default service discovery domain, such as
-      “services.home.arpa” <xref target="I-D.ietf-homenet-dot"/>.
+      “services.home.arpa” <xref target="RFC8375"/>.
       Services published in this factory-default service discovery domain
-      would not be globally unique or globally resolvable, but they could
+      are not globally unique or globally resolvable, but they can
       have scope larger than the single link provided by Multicast DNS.</t>
 
       <t>
@@ -345,7 +358,9 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       clients have to choose what DNS names to query.</t>
 
       <t>When used with <xref target="RFC6762">Multicast DNS</xref>
-      queries are automatically performed in the “.local” parent domain.</t>
+      on the local link,
+      queries are necessarily performed in the “.local” parent domain
+      reserved for this purpose <xref target="SUDN"/>.</t>
 
       <t>For discovery beyond the local link, a unicast DNS domain must be used.
       This unicast DNS domain can be configured manually by the user,
@@ -382,9 +397,10 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       Apple’s <xref target="RFC6281">Back to My Mac Service</xref>
       introduced in Mac OS X 10.5 Leopard in 2007.</t>
 
-      <t>Recent experience has shown that an
-      asynchronous change notification protocol built on TCP would be preferable,
-      so the IETF is now developing
+      <t>A decade of operational experience has shown that an
+      asynchronous change notification protocol built on TCP is preferable
+      for a variety of reasons,
+      so the IETF is has developed
       <xref target="Push">DNS Push Notifications</xref>.</t>
 
       <t>Because DNS Push Notifications is built on top of a DNS TCP connection,
@@ -404,9 +420,9 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       how the relevant information got into the DNS namespace in
       the first place, so as to be available when clients query for it.</t>
 
-      <t>One way that relevant service discovery information can get into
+      <t>One trivial way that relevant service discovery information can get into
       the DNS namespace is simply via manual configuration, creating
-      the necessary PTR, SRV and TXT records <xref target="RFC6763"/>,
+      the necessary PTR, SRV and TXT records <xref target="RFC6763"/> by hand,
       and indeed this is how the IETF Terminal Room printer has been advertised
       to IETF meeting attendees for many years.
       While this is easy for the experienced network operators at the IETF, it
@@ -423,12 +439,12 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <section anchor="dp" title="Service Discovery Proxy">
 
-      <t>The first effort in the direction of automatically populating the DNS namespace is the
+      <t>The first technique in the direction of automatically populating the DNS namespace is the
       <xref target="DisProx">Service Discovery Proxy</xref>.
-      This technology is designed to work with today’s existing devices that advertise
+      This technology works with today’s existing devices that advertise
       services using Multicast DNS only
       (such as almost all network printers sold in the last decade).
-      A Service Discovery Proxy is a device colocated on the same link
+      A Service Discovery Proxy is a device with a presence on the same link
       as the devices we wish to be able to discover from afar.
       A remote client sends unicast queries to the Discovery Proxy,
       which performs local Multicast DNS queries on behalf of the remote client,
@@ -466,10 +482,10 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <section title="Service Discovery Broker">
 
-      <t>Finally, when clients are making TCP connections to multiple
+      <t>Finally, when clients are communicating with multiple
       Service Discovery Proxies at the same time, this can be burdensome for
       the clients (which may be mobile and battery powered)
-      and for the the Service Discovery Proxies
+      and for the Service Discovery Proxies
       (which may have to serve hundreds of clients).
       This situation is remedied by use of a
       <xref target="Broker">Service Discovery Broker</xref>.
@@ -486,7 +502,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 
       <section anchor="srp" title="Service Registration Protocol">
 
-      <t>The second effort in the direction of automatically populating the DNS namespace is the
+      <t>The second technique in the direction of automatically populating the DNS namespace is the
       <xref target="RegProt">Service Registration Protocol</xref>.
       This technology is designed to enable future devices that will explicitly
       cooperate with the network infrastructure to advertise their services.</t>
@@ -494,36 +510,34 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t>The Service Registration Protocol is effectively DNS Update,
       with some minor additions.</t>
 
-      <t>One addition is the introduction of a lifetime on DNS Updates,
-      using the the
+      <t>One addition to the basic DNS Update protocol is the introduction of a lifetime on DNS Updates,
+      using the
       <xref target="DNS-UL">Dynamic DNS Update Lease EDNS(0) option</xref>.
       This option has similar semantics to a DHCP address lease,
-      where a device is granted an address with with a certain lease lifetime,
-      and if the device fails to renew the lease before it expires then the address
+      where a device is granted an address with with a certain DHCP lease lifetime,
+      and if the device fails to renew the DHCP lease before it expires then the address
       will be reclaimed and become available to be allocated to a different device.
-      In cases where DHCP is being used, a device will generally request a
+      In cases where DHCP is being used for address assignment, a device will generally request a
       DNS Update Lease with the same expiration time as its DHCP address lease.
       This way, if the device is abruptly disconnected from the network,
       around the same time as its address gets reclaimed
       its DNS records will also be garbage collected.</t>
 
-      <t>The second addition is the introduction of information
+      <t>The second addition to the basic DNS Update protocol is the introduction of information,
+      carried using the <xref target="Owner">EDNS(0) OWNER Option</xref>,
       that tells the Service Registration server that the device
-      will be going to sleep to save power, combined with
-      information specifying how to wake it up again on demand,
-      using the
-      <xref target="Owner">EDNS(0) OWNER Option</xref>.</t>
+      will be going to sleep to save power,
+      and how the Service Registration server can wake it up again on demand when needed.
+      The use of power management information in the Service Registration
+      messages allows devices to sleep to save power, which is especially
+      beneficial for battery-powered devices in the home.</t>
 
       <t>The use of an explicit Service Registration Protocol is beneficial
       in networks where multicast is expensive, inefficient, or outright
       blocked, such as many Wi-Fi networks.
       An explicit Service Registration Protocol is also beneficial
       in networks where multicast and broadcast are supported poorly,
-      if at all, such as mesh networks like those using IEEE 802.15.4.</t>
-
-      <t>The use of power management information in the Service Registration
-      messages allows devices to sleep to save power, which is especially
-      beneficial for battery-powered devices in the home.</t>
+      if at all, such as some mesh networks.</t>
 
       </section>
     </section>
@@ -543,32 +557,40 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <?rfc include="reference.RFC.1034" ?>
       <?rfc include="reference.RFC.1035" ?>
       <?rfc include="reference.RFC.6281" ?>
+      <?rfc include="reference.RFC.6335" ?>
       <?rfc include="reference.RFC.6760" ?>
       <?rfc include="reference.RFC.6762" ?>
       <?rfc include="reference.RFC.6763" ?>
-      <?rfc include="reference.RFC.6335" ?>
       <?rfc include="reference.RFC.8305" ?>
+      <?rfc include="reference.RFC.8375" ?>
 
-      <?rfc include="reference.I-D.ietf-homenet-dot" ?>
-
+      <?rfc include="reference.I-D.sctl-discovery-broker"       anchor='Broker' ?>
       <?rfc include="reference.I-D.ietf-dnssd-hybrid"           anchor='DisProx' ?>
-      <?rfc include="reference.I-D.ietf-dnssd-push"             anchor='Push' ?>
-      <?rfc include="reference.I-D.ietf-dnsop-session-signal"   anchor='DSO' ?>
-      <?rfc include="reference.I-D.sekar-dns-ul"                anchor='DNS-UL' ?>
       <?rfc include="reference.I-D.sekar-dns-llq"               anchor='DNS-LLQ' ?>
+      <?rfc include="reference.I-D.sekar-dns-ul"                anchor='DNS-UL' ?>
+      <?rfc include="reference.I-D.ietf-dnsop-session-signal"   anchor='DSO' ?>
       <?rfc include="reference.I-D.cheshire-edns0-owner-option" anchor='Owner' ?>
+      <?rfc include="reference.I-D.ietf-dnssd-push"             anchor='Push' ?>
       <?rfc include="reference.I-D.sctl-service-registration"   anchor='RegProt' ?>
       <?rfc include="reference.I-D.sctl-dnssd-mdns-relay"       anchor='Relay' ?>
-      <?rfc include="reference.I-D.sctl-discovery-broker"       anchor='Broker' ?>
 
-     <reference anchor="STR"
-     target="http://www.iana.org/assignments/service-names-port-numbers/">
-       <front>
-         <title>Service Name and Transport Protocol Port Number Registry</title>
-         <author/>
-         <date/>
-       </front>
-     </reference>
+      <reference anchor="STR"
+      target="http://www.iana.org/assignments/service-names-port-numbers/">
+        <front>
+          <title>Service Name and Transport Protocol Port Number Registry</title>
+          <author/>
+          <date/>
+        </front>
+      </reference>
+
+      <reference anchor="SUDN"
+      target="https://www.iana.org/assignments/special-use-domain-names/">
+        <front>
+          <title>Special-Use Domain Names Registry</title>
+          <author/>
+          <date/>
+        </front>
+      </reference>
 
       <reference anchor="ZC">
         <front>
@@ -584,39 +606,38 @@ Check output with <http://tools.ietf.org/tools/idnits/>
     </references>
 
 <?rfc needLines="40" ?>
-    <section anchor="app-a" title="IETF Terminal Room Printer Discovery Walk-through">
-      <t>For about a decade now, the capable IETF network staff have provided
-      off-link DNS Service Discovery for the Terminal Room printer at IETF
-      meetings three times a year.
-      In the case of the IETF meetings the necessary DNS records are entered manually,
-      whereas this document advocates for increased automation of that task,
-      but the process by which clients query to discover services is the same either way.
-      </t>
+    <section anchor="app-a" title="IETF Terminal Room Printer Discovery Walk-Through">
+        <t>For about a decade now, the talented IETF network staff have provided
+        off-link DNS Service Discovery for the Terminal Room printer at IETF
+        meetings three times a year.
+        In the case of the IETF meetings the necessary DNS records are entered manually,
+        whereas this document advocates for increased automation of that task,
+        but either way the process by which clients query to discover services is the same.
+        </t>
 
-      <t>This appendix gives a detailed step-by step account of how this works.
-      It starts with joining the Wi-Fi network and doing a DHCP request,
-      and ends with paper coming out of the printer.
-      The reason the explanation is so detailed is to avoid inadvertently having
-      a hand-waving “and then a miracle occurs” part, which skips over important
-      details.
-      And one of the reasons for asking the IETF network team to set this up
-      for IETF meetings is that operational use is an important reality check.
-      When standing in front of a room, giving a presentation,
-      if you miss out some vital step, people may not notice.
-      When running an actual service used by actual people,
-      if you miss out some vital step, no paper comes out of the printer,
-      and everyone notices.
-      </t>
+        <t>This appendix gives a detailed step-by step account of how this client query process works.
+        It starts with a client joining the Wi-Fi network and doing a DHCP request,
+        and ends with paper coming out of the printer.
+        The reason the explanation is gives the specific details of every step is to avoid inadvertently having
+        a hand-waving “and then a miracle occurs” part, which misses out some important detail.
+        And one of the reasons for asking the IETF network team to set this up
+        for IETF meetings is that operational use is an important reality check.
+        When standing in front of a room, giving a presentation,
+        if you miss out some vital step, people may not notice.
+        When running an actual service used by actual people,
+        if you miss out some vital step, no paper comes out of the printer,
+        and everyone notices.
+        </t>
 
-      <t>Using a macOS computer, at an IETF meeting, you can repeat the steps
-      illustrated here to see exactly how it works.
-      Or you can simply press Cmd-P in any application and see that
-      "term-printer" appears as an available printer, to confirm that it
-      does in fact work.
-      </t>
+        <t>Using a macOS computer, at an IETF meeting, you can repeat the steps
+        illustrated here to see exactly how it works.
+        Or you can simply press Cmd-P in any application and see that
+        "term-printer" appears as an available printer, to confirm that it
+        does in fact work.
+        </t>
 
-      <t>First, let’s see what the macOS computer learned from the local DHCP server:
-      </t>
+        <t>First, let’s see what the macOS computer learned from the local DHCP server:
+        </t>
 
 <figure><artwork align="left"><![CDATA[
   % scutil
@@ -632,17 +653,21 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   }
 ]]></artwork></figure>
 
-      <t>Option_15 is Domain Name. To see what domain name,
-      we need to decode the hexadecimal data to ASCII.</t>
+        <t>Option_15 is Domain Name. To see what domain name,
+        we need to decode the hexadecimal data to ASCII.</t>
 
 <figure><artwork align="left"><![CDATA[
   % echo 6d656574696e672e696574662e6f7267 0A | xxd -r -p
   meeting.ietf.org
 ]]></artwork></figure>
 
-      <t>Our DHCP domain name is meeting.ietf.org.
-      Does meeting.ietf.org recommend that we look
-      in any Wide Area Service Discovery domains?</t>
+      <section title="Domain Enumeration using PTR queries">
+
+        <t>Our DHCP domain name is meeting.ietf.org.
+        Does meeting.ietf.org recommend that we look
+        in any Wide Area Service Discovery domains?
+        This step is called Domain Enumeration <xref target="RFC6763"/>,
+        and is performed using a DNS PTR query for a name with the special prefix "lb._dns-sd._udp":</t>
 
 <figure><artwork align="left"><![CDATA[
   % dig lb._dns-sd._udp.meeting.ietf.org. ptr
@@ -668,19 +693,19 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   ;; MSG SIZE  rcvd: 188
 ]]></artwork></figure>
 
-      <t>In the middle there you'll see that the answer is "meeting.ietf.org".
-      In this case the answer is self-referential -- "meeting.ietf.org" is
-      inviting us to look for services in "meeting.ietf.org",
-      but the PTR record(s) could equally well point at any other domain,
-      such as "services.ietf.org", or anything else.</t>
+        <t>In the middle there in the Answer Section you'll see that the answer to the PTR query is "meeting.ietf.org".
+        In this case the answer is self-referential -- "meeting.ietf.org" is
+        inviting us to look for services in "meeting.ietf.org",
+        but the PTR record(s) could equally well point at any other domain,
+        such as "services.ietf.org", or anything else.</t>
 
 <?rfc needLines="28" ?>
-      <t>Note that this answer does not depend on the client device being "on" the
-      IETF meeting network, which is in any case a loosely defined concept at best.
-      Nor does it depend on sending the DNS query to a DNS server that is "on"
-      the IETF meeting network. Any capable DNS recursive resolver anywhere on
-      the planet will give the same answer. We can test this by sending the
-      same DNS query to Google's 8.8.8.8 public resolver:</t>
+        <t>Note that this answer does not depend on the client device being "on" the
+        IETF meeting network, which is in any case a loosely defined concept at best.
+        Nor does it depend on sending the DNS query to a DNS server that is "on"
+        the IETF meeting network. Any capable DNS recursive resolver anywhere on
+        the planet will give the same answer. We can test this by sending the
+        same DNS PTR query to Google's 8.8.8.8 public resolver:</t>
 
 <figure><artwork align="left"><![CDATA[
   % dig @8.8.8.8 lb._dns-sd._udp.meeting.ietf.org. ptr
@@ -705,11 +730,11 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   ;; MSG SIZE  rcvd: 64
 ]]></artwork></figure>
 
-      <t>In the middle there you'll see that the answer is still "meeting.ietf.org".</t>
+        <t>In the Answer Section you'll see that the answer is still "meeting.ietf.org".</t>
 
 <?rfc needLines="28" ?>
-      <t>In this example, this particular test was done at the 86th IETF in Orlando, Florida, in March 2013.
-      The Google 8.8.8.8 public resolver still gave the correct answer, even though it was 13 hops away:</t>
+        <t>In this example, this particular test was done at the 86th IETF in Orlando, Florida, in March 2013.
+        The Google 8.8.8.8 public resolver still gave the correct answer, even though it was 13 hops away:</t>
 
 <figure><artwork align="left"><![CDATA[
   % traceroute -q 1 8.8.8.8
@@ -729,30 +754,52 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   13  google-public-dns-a.google.com (8.8.8.8)  32.961 ms
 ]]></artwork></figure>
 
-      <t>For the rest of this example we use the Google 8.8.8.8 public
-      resolver for all the queries.</t>
+        <t>For the rest of this example we use the Google 8.8.8.8 public
+        resolver for all the queries.</t>
 
-      <t>In the case of IETF meetings the PTR is self-referential —
-      meeting.ietf.org is advising us to look in meeting.ietf.org, but it
-      could easily be set up to direct us elsewhere.
-      However, since it’s suggesting we look for services in
-      meeting.ietf.org, we'll do that.</t>
-      
-      <t>A macOS computer with appropriate
-      printer drivers installed will look for instances
-      of the "_pdl-datastream._tcp" service type at "meeting.ietf.org":</t>
+        <t>In the case of IETF meetings the PTR is self-referential —
+        meeting.ietf.org is advising us to look in meeting.ietf.org, but it
+        could easily be set up to direct us elsewhere.
+        However, since it’s suggesting we look for services in
+        meeting.ietf.org, we'll do that.</t>
+
+      </section>
+
+<?rfc needLines="30" ?>
+      <section title="Instance Enumeration using PTR queries on a macOS computer">
+
+        <t>Once one or more service discovery domains have been determined,
+        the client then looks for instances of the desired service type.
+        This step is called Instance Enumeration
+        and is also performed using a DNS PTR queries,
+        using a name with a prefix indicating the type of service that is being sought.</t>
+
+        <t>A macOS computer with appropriate
+        printer drivers installed will look for instances
+        of the service type "_pdl-datastream._tcp" in the domain "meeting.ietf.org", as shown below.
+        This is typically performed just once, the first time the macOS computer is set up to use that printer.</t>
 
 <figure><artwork align="left"><![CDATA[
   % dig +short @8.8.8.8 _pdl-datastream._tcp.meeting.ietf.org. ptr
   term-printer._pdl-datastream._tcp.meeting.ietf.org.
 ]]></artwork></figure>
 
-      <t>There’s one printing service available here, called “term-printer”.
-      That’s what you see when you press the “+” button in the Print &amp; Fax
-      Preference Pane on macOS.</t>
+        <t>There’s one printing service available here, called “term-printer”.
+        That’s what you see when you press the “+” button in the Print &amp; Fax
+        Preference Pane on macOS.</t>
 
-<?rfc needLines="13" ?>
-      <t>When the user actually prints something, macOS does these queries:</t>
+      </section>
+
+<?rfc needLines="30" ?>
+      <section title="Printing from a macOS computer">
+
+        <t>When the user actually prints something, macOS sends a DNS SRV query
+        for the printer name learned in the previous Instance Enumeration step,
+        to learn the target host and port for the service.
+        This DNS SRV query is then followed by address queries for the target host's
+        IPv4 and/or IPv6 addresses. The necessary address records are usually included in the
+        Additional Section of the reply to the SRV query, so that these address queries
+        can be answered from the local cache, without resulting in additional packets over the air.</t>
 
 <figure><artwork align="left"><![CDATA[
   % dig +short @8.8.8.8 \
@@ -763,15 +810,24 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   2001:df8::48:200:74ff:fee0:6cf8
 ]]></artwork></figure>
 
-      <t>This tells the computer that to use this printer,
-      it must connect to [2001:df8::48:200:74ff:fee0:6cf8]:9100,
-      using the installed printer driver, which speaks the appropriate
-      vendor-specific printing protocol for that printer.</t>
+        <t>This tells the computer that to use this printer,
+        it must connect to [2001:df8::48:200:74ff:fee0:6cf8]:9100,
+        using the installed printer driver, which speaks the appropriate
+        vendor-specific printing protocol for that printer.</t>
 
-      <t>Printing from an iPhone or iPad is similar, except there are no
-      vendor-specific printer drivers installed. Instead, printing from an
-      iPhone or iPad uses the IETF Standard IPP printing protocol, using an
-      IPP printer that supports at least URF (Universal Raster Format):</t>
+      </section>
+
+<?rfc needLines="30" ?>
+      <section title="Instance Enumeration using PTR queries on an iOS device">
+
+        <t>Printing from an iPhone or iPad is similar, except there are no
+        vendor-specific printer drivers installed. Instead, printing from an
+        iPhone or iPad uses the IETF Standard IPP printing protocol, using an
+        IPP printer that supports at least URF (Universal Raster Format).
+        Consequently, the iOS device sends its Instance Enumeration DNS PTR queries
+        using the prefix "_universal._sub._ipp._tcp" to indicate that it is
+        looking for the subset of IPP printers that support Universal Raster Format.
+        </t>
 
 <figure><artwork align="left"><![CDATA[
   % dig +short @8.8.8.8 \
@@ -779,12 +835,17 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   term-printer._ipp._tcp.meeting.ietf.org.
 ]]></artwork></figure>
 
-      <t>An iPhone or iPad will discover that there’s one IPP-based printing
-      service available here, called “term-printer”.
-      It has the same name as the pdl-datastream printing service, and exists
-      on the same physical hardware, but uses a different printing protocol.</t>
+        <t>An iPhone or iPad will discover that there’s one URF-capable IPP-based printing
+        service available here, called “term-printer”.
+        It has the same name as the pdl-datastream printing service, and exists
+        on the same physical hardware, but uses a different printing protocol.</t>
 
-      <t>When the user prints from their iPhone or iPad using AirPrint, iOS does these queries:</t>
+      </section>
+
+      <section title="Printing from an iOS device">
+
+        <t>When the user prints from their iPhone or iPad using AirPrint, iOS does these
+        DNS SRV and address queries:</t>
 
 <figure><artwork align="left"><![CDATA[
   % dig +short @8.8.8.8 term-printer._ipp._tcp.meeting.ietf.org. srv
@@ -794,13 +855,14 @@ Check output with <http://tools.ietf.org/tools/idnits/>
   2001:df8::48:200:74ff:fee0:6cf8
 ]]></artwork></figure>
 
-      <t>Note that the "_ipp._tcp" service has the same target hostname
-      and IPv6 address as the "_pdl-datastream" service,
-      but is accessed at a different TCP port on that hardware device.</t>
+        <t>Note that the "_ipp._tcp" service has the same target hostname
+        and IPv6 address as the "_pdl-datastream" service from the macOS example,
+        but is accessed at a different TCP port on that hardware device.</t>
 
-      <t>To use this printer, the iPhone or iPad connects to
-      [2001:df8::48:200:74ff:fee0:6cf8]:631, and uses IPP to print.</t>
+        <t>To use this printer, the iPhone or iPad connects to
+        [2001:df8::48:200:74ff:fee0:6cf8]:631, and uses IPP to print.</t>
 
+      </section>
     </section>
   </back>
 </rfc>

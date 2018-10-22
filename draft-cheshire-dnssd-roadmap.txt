@@ -4,12 +4,12 @@
 
 Internet Engineering Task Force                              S. Cheshire
 Internet-Draft                                                Apple Inc.
-Intended status: Informational                            March 18, 2018
-Expires: September 19, 2018
+Intended status: Informational                          October 22, 2018
+Expires: April 25, 2019
 
 
                        Service Discovery Road Map
-                    draft-cheshire-dnssd-roadmap-01
+                    draft-cheshire-dnssd-roadmap-02
 
 Abstract
 
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 19, 2018.
+   This Internet-Draft will expire on April 25, 2019.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Cheshire               Expires September 19, 2018               [Page 1]
+Cheshire                 Expires April 25, 2019                 [Page 1]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 1.  Road Map
@@ -86,13 +86,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
    This is how a client communicates what it needs, and how a server
    communicates what it offers.  For a client to discover a server, the
    client and server need to have a common language to describe what
-   they need and what they offer.  The need to use the same namespace of
-   service types, otherwise they may actually speak the same application
-   protocol over the air or on the wire, and may in fact be completely
-   compatible, and yet may be unable to detect this because they are
-   using different names to refer to the same actual service.  Hence,
-   having a consistent namespace of service types is the essential
-   prerequisite for any useful service discovery.
+   they need and what they offer.  They need to use the same namespace
+   of service types, otherwise they may actually speak the same
+   application protocol over the air or on the wire, and may in fact be
+   completely compatible, and yet may be unable to detect this because
+   they are using different names to refer to the same actual service.
+   Hence, having a consistent namespace of service types is the
+   essential prerequisite for any useful service discovery.
 
    IANA manages the registry of Service Types [RFC6335][STR].  This
    registry of Service Types can (and should) be used in any service
@@ -109,27 +109,27 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-Cheshire               Expires September 19, 2018               [Page 2]
+Cheshire                 Expires April 25, 2019                 [Page 2]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
    For example, for service discovery of services potentially available
    via a Wi-Fi access point, prior to association with that Wi-Fi access
-   point, when no IP link has yet been established, a service discovery
-   protocol may use raw 802.11 frames, not necessarily IP, UDP, or DNS-
-   formatted messages.  For Service Discovery using peer-to-peer Wi-Fi
-   technologies, without any Wi-Fi access point at all, it may also be
-   preferable to use raw 802.11 frames instead of IP, UDP, or DNS-
-   formatted messages.  Service Discovery using IEEE 802.15.4 radios may
-   use yet another over-the-air protocol.  What is important is that
-   they all share the same vocabulary to describe all IP-based services.
-   Using the same service type vocabulary means that client and server
-   software, using agnostic APIs to consume and offer services on the
-   network, has a common language to identify those services,
-   independent of the medium or the particular service discovery
-   protocol in use on that medium.  Just as TCP/IP runs on many
-   different link layers, and the concept of using an IP address to
+   point, when no IP communication has yet been established, a service
+   discovery protocol may use raw 802.11 frames, not necessarily IP,
+   UDP, or DNS-formatted messages.  For Service Discovery using peer-to-
+   peer Wi-Fi technologies, without any Wi-Fi access point at all, it
+   may also be preferable to use raw 802.11 frames instead of IP, UDP,
+   or DNS-formatted messages.  Service Discovery using IEEE 802.15.4
+   radios may use yet another over-the-air protocol.  What is important
+   is that they all share the same vocabulary to describe all IP-based
+   services.  Using the same service type vocabulary means that client
+   and server software, using agnostic APIs to consume and offer
+   services on the network, has a common language to identify those
+   services, independent of the medium or the particular service
+   discovery protocol in use on that medium.  Just as TCP/IP runs on
+   many different link layers, and the concept of using an IP address to
    identify a particular peer is consistent across many different link
    layers, the concept of using a name from the IANA Service Type
    Registry to identify a particular service type also needs to be
@@ -165,15 +165,15 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-Cheshire               Expires September 19, 2018               [Page 3]
+Cheshire                 Expires April 25, 2019                 [Page 3]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 3.  Service Discovery Operational Model
 
-   The original DNS-Based Service Discovery specifications [RFC6763]
-   used the terms "register" (advertise a service), "browse" (discover
+   The original DNS-Based Service Discovery specification [RFC6763] used
+   the terms "register" (advertise a service), "browse" (discover
    service instances), and "resolve" (get IP address and port for a
    specific service instance).  This terminology is reflective of the
    thinking at the time, which viewed service discovery as a new and
@@ -212,7 +212,7 @@ Internet-Draft         Service Discovery Road Map             March 2018
    printer to use.  The desired *function* is known (IPP printing), but
    not the particular instance.  In this case, the client device needs
    to enumerate the list of available service instances that are able to
-   perform the desired task.  In most cases this list of service
+   perform the desired task.  In some cases this list of service
    instances is presented to a human user to choose from; in some cases
    it is software that examines the list of available service instances
    and determines the best one to use.  This second step is the
@@ -221,9 +221,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-Cheshire               Expires September 19, 2018               [Page 4]
+Cheshire                 Expires April 25, 2019                 [Page 4]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
    The third step, "Use", is when particular service instance has been
@@ -249,19 +249,39 @@ Internet-Draft         Service Discovery Road Map             March 2018
    that table (the information pertaining to just one named service
    instance).
 
-   To give an example, clicking the "+" button in the printer settings
-   on macOS is an operation performing the second step.  It is
-   requesting the names of all available printers.  Once a desired
-   printer has been chosen and configured, subsequent printing of
-   documents is an operation performing the third step.  It only needs
-   to request information about the specific printer in question.  It is
-   not necessary to repeatedly discover the list of every printer on the
-   network if the client device already knows which one it intends to
-   use.
+   To give a concrete example, clicking the "+" button in the printer
+   settings on macOS is an operation performing the second step.  It is
+   requesting the names of all available printers.  Depending on the
+   specific use case, this step may be performed only rarely.  For
+   example, a user may do this just one once, the first time they
+   configure their computer to use their preferred printer, and never
+   again.
+
+   Once a desired printer has been chosen and configured, subsequent
+   printing of documents is an operation performing the third step.
+   This step may be done frequently, perhaps multiple times per day.
+   This third step is important because, in a world of DHCP, IPv6
+   Stateless Autoconfiguration, and similar dynamic address allocation
+   schemes, a printer's IP address could change from day to day, and to
+   use the printer, its current address must be known.  However, this
+   third step need not be performed for every printer on the network,
+   just the specific printer that is about to be used.  Also, it is not
+   necessary to repeat the second step again, learning the names of
+   every printer on the network, if the client device already knows the
+   name of the printer it intends to use.
 
    DNS-Based Service Discovery [RFC6763] implements these three
    principal service discovery operations using DNS records and queries,
    either using Multicast DNS [RFC6762] (for queries limited to the
+
+
+
+
+Cheshire                 Expires April 25, 2019                 [Page 5]
+
+Internet-Draft         Service Discovery Road Map           October 2018
+
+
    local link) or conventional unicast DNS [RFC1034] [RFC1035] (for
    queries beyond the local link).
 
@@ -275,40 +295,34 @@ Internet-Draft         Service Discovery Road Map             March 2018
    efficiency and code reuse gained by using the same underlying
    protocol for both service discovery and naming.
 
-
-
-Cheshire               Expires September 19, 2018               [Page 5]
-
-Internet-Draft         Service Discovery Road Map             March 2018
-
-
-   A final requirement is that the service discovery protocol perform
-   discovery not only at a single moment in time, but also ongoing
-   change notification (sometimes called "Publish & Subscribe").
-   Without support for ongoing change notification, clients would be
-   forced to resort to polling to keep data up to date, which is
-   inefficient and wasteful on the network.
+   A final requirement is that the service discovery protocol should not
+   only perform discovery at a single moment in time, but should also
+   provide ongoing change notification (sometimes called "Publish &
+   Subscribe").  Clients need to be notified in a timely fashion when
+   new data of interest appears, when data of interest changes, and,
+   equally importantly, when data of interest goes away ("goodbye
+   packets").  Without support for ongoing change notification, clients
+   would be forced to resort to polling to keep data up to date, which
+   is inefficient and wasteful on the network.
 
    Multicast DNS [RFC6762] implicitly includes change notification by
-   virtue of announcing record changes via IP Multicast, which allows
-   these changes to be seen by all peers on the same link (i.e., same
-   broadcast domain).
+   virtue of announcing record creation, update, and deletion, via IP
+   Multicast, which allows these changes to be seen by all peers on the
+   same link (i.e., same broadcast domain).
 
    Conventional unicast DNS [RFC1034] [RFC1035] has historically not had
    broad support for change notification.  This capability is added via
    the new mechanism for DNS Push Notifications [Push].
 
    When using DNS-Based Service Discovery [RFC6763] there are two
-   aspects to consider: firstly how the clients choose what DNS names to
-   query, and what query mechanisms to use, and secondly how the
-   relevant information got into the DNS namespace in the first place,
-   so as to be available when clients query for it.
+   aspects to consider: firstly how the clients determine the
+   appropriate DNS names to query (and what query mechanisms to use) and
+   secondly how the relevant information got into the DNS namespace in
+   the first place, so as to be available when clients query for it.
 
-   The available namespaces are discussed below in Section 4.  Client
-   operation is discussed in Section 5 and server operation is discussed
-   in Section 6.
-
-
+   The available namespaces are discussed broadly in Section 4 below.
+   Client operation is then discussed in detail in Section 5, and server
+   operation is discussed in detail in Section 6.
 
 
 
@@ -319,29 +333,16 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Cheshire               Expires September 19, 2018               [Page 6]
+Cheshire                 Expires April 25, 2019                 [Page 6]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 4.  Service Discovery Namespace
 
-   When used with Multicast DNS [RFC6762] queries are automatically
-   performed in the ".local" parent domain.
+   When used with Multicast DNS [RFC6762] Service Discovery queries
+   necessarily use the ".local" parent domain reserved for this purpose
+   [SUDN].
 
    When used with conventional unicast DNS [RFC1034] [RFC1035] some
    other domain must be used.
@@ -350,15 +351,15 @@ Internet-Draft         Service Discovery Road Map             March 2018
    registered to them, their globally-unique domain name, or a subdomain
    of it, can be used for service discovery.
 
-   However, it would be convenient for capable service discovery to be
+   However, it would be convenient for advanced service discovery to be
    available even to people who haven't taken the step of registering
-   and paying for a globally-unique domain name.  For these people it
-   would be useful if devices arrived preconfigured with some suitable
-   factory-default service discovery domain, such as
-   "services.home.arpa" [I-D.ietf-homenet-dot].  Services published in
-   this factory-default service discovery domain would not be globally
-   unique or globally resolvable, but they could have scope larger than
-   the single link provided by Multicast DNS.
+   and paying annually for a globally-unique domain name.  For these
+   people it would be useful if devices arrived preconfigured with some
+   suitable factory-default service discovery domain, such as
+   "services.home.arpa" [RFC8375].  Services published in this factory-
+   default service discovery domain are not globally unique or globally
+   resolvable, but they can have scope larger than the single link
+   provided by Multicast DNS.
 
 
 
@@ -388,10 +389,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-Cheshire               Expires September 19, 2018               [Page 7]
+Cheshire                 Expires April 25, 2019                 [Page 7]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 5.  Client Configuration and Operation
@@ -399,8 +399,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
    When using DNS-Based Service Discovery [RFC6763], clients have to
    choose what DNS names to query.
 
-   When used with Multicast DNS [RFC6762] queries are automatically
-   performed in the ".local" parent domain.
+   When used with Multicast DNS [RFC6762] on the local link, queries are
+   necessarily performed in the ".local" parent domain reserved for this
+   purpose [SUDN].
 
    For discovery beyond the local link, a unicast DNS domain must be
    used.  This unicast DNS domain can be configured manually by the
@@ -432,9 +433,10 @@ Internet-Draft         Service Discovery Road Map             March 2018
    [DNS-LLQ].  This was used, among other things, by Apple's Back to My
    Mac Service [RFC6281] introduced in Mac OS X 10.5 Leopard in 2007.
 
-   Recent experience has shown that an asynchronous change notification
-   protocol built on TCP would be preferable, so the IETF is now
-   developing DNS Push Notifications [Push].
+   A decade of operational experience has shown that an asynchronous
+   change notification protocol built on TCP is preferable for a variety
+   of reasons, so the IETF is has developed DNS Push Notifications
+   [Push].
 
    Because DNS Push Notifications is built on top of a DNS TCP
    connection, DNS Push Notifications adopts the conventions specified
@@ -443,11 +445,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-
-Cheshire               Expires September 19, 2018               [Page 8]
+Cheshire                 Expires April 25, 2019                 [Page 8]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 6.  Server Configuration and Operation
@@ -457,13 +457,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
    namespace in the first place, so as to be available when clients
    query for it.
 
-   One way that relevant service discovery information can get into the
-   DNS namespace is simply via manual configuration, creating the
-   necessary PTR, SRV and TXT records [RFC6763], and indeed this is how
-   the IETF Terminal Room printer has been advertised to IETF meeting
-   attendees for many years.  While this is easy for the experienced
-   network operators at the IETF, it can be onerous to others less
-   familiar with how to set up DNS-SD records.
+   One trivial way that relevant service discovery information can get
+   into the DNS namespace is simply via manual configuration, creating
+   the necessary PTR, SRV and TXT records [RFC6763] by hand, and indeed
+   this is how the IETF Terminal Room printer has been advertised to
+   IETF meeting attendees for many years.  While this is easy for the
+   experienced network operators at the IETF, it can be onerous to
+   others less familiar with how to set up DNS-SD records.
 
    Hence it would be convenient to automate this process of populating
    the DNS namespace with relevant service discovery information.  Two
@@ -473,15 +473,16 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 6.1.  Service Discovery Proxy
 
-   The first effort in the direction of automatically populating the DNS
-   namespace is the Service Discovery Proxy [DisProx].  This technology
-   is designed to work with today's existing devices that advertise
+   The first technique in the direction of automatically populating the
+   DNS namespace is the Service Discovery Proxy [DisProx].  This
+   technology works with today's existing devices that advertise
    services using Multicast DNS only (such as almost all network
    printers sold in the last decade).  A Service Discovery Proxy is a
-   device colocated on the same link as the devices we wish to be able
-   to discover from afar.  A remote client sends unicast queries to the
-   Discovery Proxy, which performs local Multicast DNS queries on behalf
-   of the remote client, and then sends back the answers it discovers.
+   device with a presence on the same link as the devices we wish to be
+   able to discover from afar.  A remote client sends unicast queries to
+   the Discovery Proxy, which performs local Multicast DNS queries on
+   behalf of the remote client, and then sends back the answers it
+   discovers.
 
    Because the time it takes to receive Multicast DNS responses is
    uncertain, this mechanism benefits from being able to deliver
@@ -500,10 +501,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-Cheshire               Expires September 19, 2018               [Page 9]
+Cheshire                 Expires April 25, 2019                 [Page 9]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 6.2.  Multicast DNS Discovery Relay
@@ -524,15 +524,15 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 6.3.  Service Discovery Broker
 
-   Finally, when clients are making TCP connections to multiple Service
+   Finally, when clients are communicating with multiple Service
    Discovery Proxies at the same time, this can be burdensome for the
-   clients (which may be mobile and battery powered) and for the the
-   Service Discovery Proxies (which may have to serve hundreds of
-   clients).  This situation is remedied by use of a Service Discovery
-   Broker [Broker].  A Service Discovery Broker is an intermediary
-   between client and server.  A client can issue a single query to the
-   Service Discovery Broker and have the Service Discovery Broker do the
-   hard work of issuing multiple queries on behalf of the client.  And a
+   clients (which may be mobile and battery powered) and for the Service
+   Discovery Proxies (which may have to serve hundreds of clients).
+   This situation is remedied by use of a Service Discovery Broker
+   [Broker].  A Service Discovery Broker is an intermediary between
+   client and server.  A client can issue a single query to the Service
+   Discovery Broker and have the Service Discovery Broker do the hard
+   work of issuing multiple queries on behalf of the client.  And a
    Service Discovery Broker can shield a Service Discovery Proxy from
    excessive load by collapsing multiple duplicate queries from
    different client down to a single query to the Service Discovery
@@ -557,14 +557,14 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-Cheshire               Expires September 19, 2018              [Page 10]
+Cheshire                 Expires April 25, 2019                [Page 10]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 6.4.  Service Registration Protocol
 
-   The second effort in the direction of automatically populating the
+   The second technique in the direction of automatically populating the
    DNS namespace is the Service Registration Protocol [RegProt].  This
    technology is designed to enable future devices that will explicitly
    cooperate with the network infrastructure to advertise their
@@ -573,33 +573,34 @@ Internet-Draft         Service Discovery Road Map             March 2018
    The Service Registration Protocol is effectively DNS Update, with
    some minor additions.
 
-   One addition is the introduction of a lifetime on DNS Updates, using
-   the the Dynamic DNS Update Lease EDNS(0) option [DNS-UL].  This
-   option has similar semantics to a DHCP address lease, where a device
-   is granted an address with with a certain lease lifetime, and if the
-   device fails to renew the lease before it expires then the address
-   will be reclaimed and become available to be allocated to a different
-   device.  In cases where DHCP is being used, a device will generally
-   request a DNS Update Lease with the same expiration time as its DHCP
-   address lease.  This way, if the device is abruptly disconnected from
-   the network, around the same time as its address gets reclaimed its
-   DNS records will also be garbage collected.
+   One addition to the basic DNS Update protocol is the introduction of
+   a lifetime on DNS Updates, using the Dynamic DNS Update Lease EDNS(0)
+   option [DNS-UL].  This option has similar semantics to a DHCP address
+   lease, where a device is granted an address with with a certain DHCP
+   lease lifetime, and if the device fails to renew the DHCP lease
+   before it expires then the address will be reclaimed and become
+   available to be allocated to a different device.  In cases where DHCP
+   is being used for address assignment, a device will generally request
+   a DNS Update Lease with the same expiration time as its DHCP address
+   lease.  This way, if the device is abruptly disconnected from the
+   network, around the same time as its address gets reclaimed its DNS
+   records will also be garbage collected.
 
-   The second addition is the introduction of information that tells the
-   Service Registration server that the device will be going to sleep to
-   save power, combined with information specifying how to wake it up
-   again on demand, using the EDNS(0) OWNER Option [Owner].
+   The second addition to the basic DNS Update protocol is the
+   introduction of information, carried using the EDNS(0) OWNER Option
+   [Owner], that tells the Service Registration server that the device
+   will be going to sleep to save power, and how the Service
+   Registration server can wake it up again on demand when needed.  The
+   use of power management information in the Service Registration
+   messages allows devices to sleep to save power, which is especially
+   beneficial for battery-powered devices in the home.
 
    The use of an explicit Service Registration Protocol is beneficial in
    networks where multicast is expensive, inefficient, or outright
    blocked, such as many Wi-Fi networks.  An explicit Service
    Registration Protocol is also beneficial in networks where multicast
-   and broadcast are supported poorly, if at all, such as mesh networks
-   like those using IEEE 802.15.4.
-
-   The use of power management information in the Service Registration
-   messages allows devices to sleep to save power, which is especially
-   beneficial for battery-powered devices in the home.
+   and broadcast are supported poorly, if at all, such as some mesh
+   networks.
 
 7.  Security Considerations
 
@@ -612,10 +613,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-Cheshire               Expires September 19, 2018              [Page 11]
+Cheshire                 Expires April 25, 2019                [Page 11]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 8.  Informative References
@@ -633,6 +633,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
               RFC 6281, DOI 10.17487/RFC6281, June 2011,
               <https://www.rfc-editor.org/info/rfc6281>.
 
+   [RFC6335]  Cotton, M., Eggert, L., Touch, J., Westerlund, M., and S.
+              Cheshire, "Internet Assigned Numbers Authority (IANA)
+              Procedures for the Management of the Service Name and
+              Transport Protocol Port Number Registry", BCP 165,
+              RFC 6335, DOI 10.17487/RFC6335, August 2011,
+              <https://www.rfc-editor.org/info/rfc6335>.
+
    [RFC6760]  Cheshire, S. and M. Krochmal, "Requirements for a Protocol
               to Replace the AppleTalk Name Binding Protocol (NBP)",
               RFC 6760, DOI 10.17487/RFC6760, February 2013,
@@ -646,51 +653,48 @@ Internet-Draft         Service Discovery Road Map             March 2018
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
               <https://www.rfc-editor.org/info/rfc6763>.
 
-   [RFC6335]  Cotton, M., Eggert, L., Touch, J., Westerlund, M., and S.
-              Cheshire, "Internet Assigned Numbers Authority (IANA)
-              Procedures for the Management of the Service Name and
-              Transport Protocol Port Number Registry", BCP 165,
-              RFC 6335, DOI 10.17487/RFC6335, August 2011,
-              <https://www.rfc-editor.org/info/rfc6335>.
-
    [RFC8305]  Schinazi, D. and T. Pauly, "Happy Eyeballs Version 2:
               Better Connectivity Using Concurrency", RFC 8305,
               DOI 10.17487/RFC8305, December 2017,
               <https://www.rfc-editor.org/info/rfc8305>.
 
-   [I-D.ietf-homenet-dot]
-              Pfister, P. and T. Lemon, "Special Use Domain
-              'home.arpa.'", draft-ietf-homenet-dot-14 (work in
-              progress), September 2017.
+   [RFC8375]  Pfister, P. and T. Lemon, "Special-Use Domain
+              'home.arpa.'", RFC 8375, DOI 10.17487/RFC8375, May 2018,
+              <https://www.rfc-editor.org/info/rfc8375>.
+
+   [Broker]   Cheshire, S. and T. Lemon, "Service Discovery Broker",
+              drdraft-sctl-discovery-broker-00 (work in progress), July
+              2017.
+
+
+
+
+Cheshire                 Expires April 25, 2019                [Page 12]
+
+Internet-Draft         Service Discovery Road Map           October 2018
+
 
    [DisProx]  Cheshire, S., "Discovery Proxy for Multicast DNS-Based
               Service Discovery", draft-ietf-dnssd-hybrid-08 (work in
               progress), March 2018.
 
+   [DNS-LLQ]  Sekar, K., "DNS Long-Lived Queries", draft-sekar-dns-
+              llq-01 (work in progress), August 2006.
 
-
-Cheshire               Expires September 19, 2018              [Page 12]
-
-Internet-Draft         Service Discovery Road Map             March 2018
-
-
-   [Push]     Pusateri, T. and S. Cheshire, "DNS Push Notifications",
-              draft-ietf-dnssd-push-14 (work in progress), March 2018.
+   [DNS-UL]   Sekar, K., "Dynamic DNS Update Leases", draft-sekar-dns-
+              ul-01 (work in progress), August 2006.
 
    [DSO]      Bellis, R., Cheshire, S., Dickinson, J., Dickinson, S.,
               Lemon, T., and T. Pusateri, "DNS Stateful Operations",
               draft-ietf-dnsop-session-signal-07 (work in progress),
               March 2018.
 
-   [DNS-UL]   Sekar, K., "Dynamic DNS Update Leases", draft-sekar-dns-
-              ul-01 (work in progress), August 2006.
-
-   [DNS-LLQ]  Sekar, K., "DNS Long-Lived Queries", draft-sekar-dns-
-              llq-01 (work in progress), August 2006.
-
    [Owner]    Cheshire, S. and M. Krochmal, "EDNS0 OWNER Option", draft-
               cheshire-edns0-owner-option-01 (work in progress), July
               2017.
+
+   [Push]     Pusateri, T. and S. Cheshire, "DNS Push Notifications",
+              draft-ietf-dnssd-push-14 (work in progress), March 2018.
 
    [RegProt]  Cheshire, S. and T. Lemon, "Service Registration Protocol
               for DNS-Based Service Discovery", draft-sctl-service-
@@ -700,13 +704,13 @@ Internet-Draft         Service Discovery Road Map             March 2018
               Relay", draft-sctl-dnssd-mdns-relay-04 (work in progress),
               March 2018.
 
-   [Broker]   Cheshire, S. and T. Lemon, "Service Discovery Broker",
-              drdraft-sctl-discovery-broker-00 (work in progress), July
-              2017.
-
    [STR]      "Service Name and Transport Protocol Port Number
               Registry", <http://www.iana.org/assignments/
               service-names-port-numbers/>.
+
+   [SUDN]     "Special-Use Domain Names Registry",
+              <https://www.iana.org/assignments/
+              special-use-domain-names/>.
 
    [ZC]       Cheshire, S. and D. Steinberg, "Zero Configuration
               Networking: The Definitive Guide", O'Reilly Media, Inc. ,
@@ -721,36 +725,33 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-
-
-
-Cheshire               Expires September 19, 2018              [Page 13]
+Cheshire                 Expires April 25, 2019                [Page 13]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
-Appendix A.  IETF Terminal Room Printer Discovery Walk-through
+Appendix A.  IETF Terminal Room Printer Discovery Walk-Through
 
-   For about a decade now, the capable IETF network staff have provided
+   For about a decade now, the talented IETF network staff have provided
    off-link DNS Service Discovery for the Terminal Room printer at IETF
    meetings three times a year.  In the case of the IETF meetings the
    necessary DNS records are entered manually, whereas this document
-   advocates for increased automation of that task, but the process by
-   which clients query to discover services is the same either way.
+   advocates for increased automation of that task, but either way the
+   process by which clients query to discover services is the same.
 
    This appendix gives a detailed step-by step account of how this
-   works.  It starts with joining the Wi-Fi network and doing a DHCP
-   request, and ends with paper coming out of the printer.  The reason
-   the explanation is so detailed is to avoid inadvertently having a
-   hand-waving "and then a miracle occurs" part, which skips over
-   important details.  And one of the reasons for asking the IETF
-   network team to set this up for IETF meetings is that operational use
-   is an important reality check.  When standing in front of a room,
-   giving a presentation, if you miss out some vital step, people may
-   not notice.  When running an actual service used by actual people, if
-   you miss out some vital step, no paper comes out of the printer, and
-   everyone notices.
+   client query process works.  It starts with a client joining the Wi-
+   Fi network and doing a DHCP request, and ends with paper coming out
+   of the printer.  The reason the explanation is gives the specific
+   details of every step is to avoid inadvertently having a hand-waving
+   "and then a miracle occurs" part, which misses out some important
+   detail.  And one of the reasons for asking the IETF network team to
+   set this up for IETF meetings is that operational use is an important
+   reality check.  When standing in front of a room, giving a
+   presentation, if you miss out some vital step, people may not notice.
+   When running an actual service used by actual people, if you miss out
+   some vital step, no paper comes out of the printer, and everyone
+   notices.
 
    Using a macOS computer, at an IETF meeting, you can repeat the steps
    illustrated here to see exactly how it works.  Or you can simply
@@ -780,14 +781,18 @@ Appendix A.  IETF Terminal Room Printer Discovery Walk-through
 
 
 
-
-Cheshire               Expires September 19, 2018              [Page 14]
+Cheshire                 Expires April 25, 2019                [Page 14]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
+
+A.1.  Domain Enumeration using PTR queries
 
    Our DHCP domain name is meeting.ietf.org.  Does meeting.ietf.org
    recommend that we look in any Wide Area Service Discovery domains?
+   This step is called Domain Enumeration [RFC6763], and is performed
+   using a DNS PTR query for a name with the special prefix "lb._dns-
+   sd._udp":
 
      % dig lb._dns-sd._udp.meeting.ietf.org. ptr
 
@@ -811,11 +816,12 @@ Internet-Draft         Service Discovery Road Map             March 2018
      ;; WHEN: Wed Mar 13 10:16:40 2013
      ;; MSG SIZE  rcvd: 188
 
-   In the middle there you'll see that the answer is "meeting.ietf.org".
-   In this case the answer is self-referential -- "meeting.ietf.org" is
-   inviting us to look for services in "meeting.ietf.org", but the PTR
-   record(s) could equally well point at any other domain, such as
-   "services.ietf.org", or anything else.
+   In the middle there in the Answer Section you'll see that the answer
+   to the PTR query is "meeting.ietf.org".  In this case the answer is
+   self-referential -- "meeting.ietf.org" is inviting us to look for
+   services in "meeting.ietf.org", but the PTR record(s) could equally
+   well point at any other domain, such as "services.ietf.org", or
+   anything else.
 
 
 
@@ -831,15 +837,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-
-
-
-
-
-Cheshire               Expires September 19, 2018              [Page 15]
+Cheshire                 Expires April 25, 2019                [Page 15]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
    Note that this answer does not depend on the client device being "on"
@@ -847,8 +847,8 @@ Internet-Draft         Service Discovery Road Map             March 2018
    concept at best.  Nor does it depend on sending the DNS query to a
    DNS server that is "on" the IETF meeting network.  Any capable DNS
    recursive resolver anywhere on the planet will give the same answer.
-   We can test this by sending the same DNS query to Google's 8.8.8.8
-   public resolver:
+   We can test this by sending the same DNS PTR query to Google's
+   8.8.8.8 public resolver:
 
      % dig @8.8.8.8 lb._dns-sd._udp.meeting.ietf.org. ptr
 
@@ -871,7 +871,7 @@ Internet-Draft         Service Discovery Road Map             March 2018
      ;; WHEN: Wed Mar 13 10:18:27 2013
      ;; MSG SIZE  rcvd: 64
 
-   In the middle there you'll see that the answer is still
+   In the Answer Section you'll see that the answer is still
    "meeting.ietf.org".
 
 
@@ -893,9 +893,9 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-Cheshire               Expires September 19, 2018              [Page 16]
+Cheshire                 Expires April 25, 2019                [Page 16]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
    In this example, this particular test was done at the 86th IETF in
@@ -926,9 +926,19 @@ Internet-Draft         Service Discovery Road Map             March 2018
    could easily be set up to direct us elsewhere.  However, since it's
    suggesting we look for services in meeting.ietf.org, we'll do that.
 
+A.2.  Instance Enumeration using PTR queries on a macOS computer
+
+   Once one or more service discovery domains have been determined, the
+   client then looks for instances of the desired service type.  This
+   step is called Instance Enumeration and is also performed using a DNS
+   PTR queries, using a name with a prefix indicating the type of
+   service that is being sought.
+
    A macOS computer with appropriate printer drivers installed will look
-   for instances of the "_pdl-datastream._tcp" service type at
-   "meeting.ietf.org":
+   for instances of the service type "_pdl-datastream._tcp" in the
+   domain "meeting.ietf.org", as shown below.  This is typically
+   performed just once, the first time the macOS computer is set up to
+   use that printer.
 
      % dig +short @8.8.8.8 _pdl-datastream._tcp.meeting.ietf.org. ptr
      term-printer._pdl-datastream._tcp.meeting.ietf.org.
@@ -939,22 +949,21 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-
-
-
-
-
-
-
-
-
-
-Cheshire               Expires September 19, 2018              [Page 17]
+Cheshire                 Expires April 25, 2019                [Page 17]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
-   When the user actually prints something, macOS does these queries:
+A.3.  Printing from a macOS computer
+
+   When the user actually prints something, macOS sends a DNS SRV query
+   for the printer name learned in the previous Instance Enumeration
+   step, to learn the target host and port for the service.  This DNS
+   SRV query is then followed by address queries for the target host's
+   IPv4 and/or IPv6 addresses.  The necessary address records are
+   usually included in the Additional Section of the reply to the SRV
+   query, so that these address queries can be answered from the local
+   cache, without resulting in additional packets over the air.
 
      % dig +short @8.8.8.8 \
                  term-printer._pdl-datastream._tcp.meeting.ietf.org. srv
@@ -968,22 +977,38 @@ Internet-Draft         Service Discovery Road Map             March 2018
    driver, which speaks the appropriate vendor-specific printing
    protocol for that printer.
 
+A.4.  Instance Enumeration using PTR queries on an iOS device
+
    Printing from an iPhone or iPad is similar, except there are no
    vendor-specific printer drivers installed.  Instead, printing from an
    iPhone or iPad uses the IETF Standard IPP printing protocol, using an
-   IPP printer that supports at least URF (Universal Raster Format):
+   IPP printer that supports at least URF (Universal Raster Format).
+   Consequently, the iOS device sends its Instance Enumeration DNS PTR
+   queries using the prefix "_universal._sub._ipp._tcp" to indicate that
+   it is looking for the subset of IPP printers that support Universal
+   Raster Format.
 
      % dig +short @8.8.8.8 \
                          _universal._sub._ipp._tcp.meeting.ietf.org. ptr
      term-printer._ipp._tcp.meeting.ietf.org.
 
-   An iPhone or iPad will discover that there's one IPP-based printing
-   service available here, called "term-printer".  It has the same name
-   as the pdl-datastream printing service, and exists on the same
-   physical hardware, but uses a different printing protocol.
+   An iPhone or iPad will discover that there's one URF-capable IPP-
+   based printing service available here, called "term-printer".  It has
+   the same name as the pdl-datastream printing service, and exists on
+   the same physical hardware, but uses a different printing protocol.
+
+A.5.  Printing from an iOS device
 
    When the user prints from their iPhone or iPad using AirPrint, iOS
-   does these queries:
+   does these DNS SRV and address queries:
+
+
+
+
+Cheshire                 Expires April 25, 2019                [Page 18]
+
+Internet-Draft         Service Discovery Road Map           October 2018
+
 
      % dig +short @8.8.8.8 term-printer._ipp._tcp.meeting.ietf.org. srv
      0 0 631 term-printer.meeting.ietf.org.
@@ -992,8 +1017,8 @@ Internet-Draft         Service Discovery Road Map             March 2018
      2001:df8::48:200:74ff:fee0:6cf8
 
    Note that the "_ipp._tcp" service has the same target hostname and
-   IPv6 address as the "_pdl-datastream" service, but is accessed at a
-   different TCP port on that hardware device.
+   IPv6 address as the "_pdl-datastream" service from the macOS example,
+   but is accessed at a different TCP port on that hardware device.
 
    To use this printer, the iPhone or iPad connects to
    [2001:df8::48:200:74ff:fee0:6cf8]:631, and uses IPP to print.
@@ -1005,9 +1030,40 @@ Internet-Draft         Service Discovery Road Map             March 2018
 
 
 
-Cheshire               Expires September 19, 2018              [Page 18]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheshire                 Expires April 25, 2019                [Page 19]
 
-Internet-Draft         Service Discovery Road Map             March 2018
+Internet-Draft         Service Discovery Road Map           October 2018
 
 
 Author's Address
@@ -1061,4 +1117,4 @@ Author's Address
 
 
 
-Cheshire               Expires September 19, 2018              [Page 19]
+Cheshire                 Expires April 25, 2019                [Page 20]
