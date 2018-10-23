@@ -4,12 +4,12 @@
 
 Internet Engineering Task Force                              S. Cheshire
 Internet-Draft                                                Apple Inc.
-Intended status: Informational                          October 22, 2018
-Expires: April 25, 2019
+Intended status: Informational                          October 23, 2018
+Expires: April 26, 2019
 
 
                        Service Discovery Road Map
-                    draft-cheshire-dnssd-roadmap-02
+                    draft-cheshire-dnssd-roadmap-03
 
 Abstract
 
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 25, 2019.
+   This Internet-Draft will expire on April 26, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 1]
+Cheshire                 Expires April 26, 2019                 [Page 1]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -109,7 +109,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 2]
+Cheshire                 Expires April 26, 2019                 [Page 2]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -165,7 +165,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 3]
+Cheshire                 Expires April 26, 2019                 [Page 3]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -221,7 +221,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 4]
+Cheshire                 Expires April 26, 2019                 [Page 4]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -277,7 +277,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 5]
+Cheshire                 Expires April 26, 2019                 [Page 5]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -333,7 +333,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 6]
+Cheshire                 Expires April 26, 2019                 [Page 6]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -389,7 +389,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 7]
+Cheshire                 Expires April 26, 2019                 [Page 7]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -445,7 +445,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 8]
+Cheshire                 Expires April 26, 2019                 [Page 8]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -501,7 +501,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                 [Page 9]
+Cheshire                 Expires April 26, 2019                 [Page 9]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -557,7 +557,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 10]
+Cheshire                 Expires April 26, 2019                [Page 10]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -613,7 +613,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 11]
+Cheshire                 Expires April 26, 2019                [Page 11]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -669,7 +669,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 12]
+Cheshire                 Expires April 26, 2019                [Page 12]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -725,7 +725,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 13]
+Cheshire                 Expires April 26, 2019                [Page 13]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -781,7 +781,7 @@ Appendix A.  IETF Terminal Room Printer Discovery Walk-Through
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 14]
+Cheshire                 Expires April 26, 2019                [Page 14]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -837,7 +837,7 @@ A.1.  Domain Enumeration using PTR queries
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 15]
+Cheshire                 Expires April 26, 2019                [Page 15]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -893,7 +893,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 16]
+Cheshire                 Expires April 26, 2019                [Page 16]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -949,7 +949,7 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 17]
+Cheshire                 Expires April 26, 2019                [Page 17]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -1005,7 +1005,7 @@ A.3.  Printing from a macOS computer
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 18]
+Cheshire                 Expires April 26, 2019                [Page 18]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -1061,7 +1061,7 @@ A.5.  Printing from an iOS device
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 19]
+Cheshire                 Expires April 26, 2019                [Page 19]
 
 Internet-Draft         Service Discovery Road Map           October 2018
 
@@ -1117,4 +1117,4 @@ Author's Address
 
 
 
-Cheshire                 Expires April 25, 2019                [Page 20]
+Cheshire                 Expires April 26, 2019                [Page 20]
