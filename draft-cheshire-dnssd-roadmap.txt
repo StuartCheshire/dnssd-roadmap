@@ -9,7 +9,7 @@ Expires: April 26, 2019
 
 
                        Service Discovery Road Map
-                    draft-cheshire-dnssd-roadmap-03
+                    draft-cheshire-dnssd-roadmap-04
 
 Abstract
 
@@ -251,11 +251,13 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
    To give a concrete example, clicking the "+" button in the printer
    settings on macOS is an operation performing the second step.  It is
-   requesting the names of all available printers.  Depending on the
-   specific use case, this step may be performed only rarely.  For
-   example, a user may do this just one once, the first time they
-   configure their computer to use their preferred printer, and never
-   again.
+   requesting the names of all available printers.  From this list the
+   user can select one or more printers they intend to use later, and
+   create print queues on their computer for those chosen printers.
+   Depending on the specific use case, this step may be performed only
+   rarely.  For example, a user may do this just one once, the first
+   time they configure their computer to use their preferred printer,
+   and never again.
 
    Once a desired printer has been chosen and configured, subsequent
    printing of documents is an operation performing the third step.
@@ -272,8 +274,6 @@ Internet-Draft         Service Discovery Road Map           October 2018
 
    DNS-Based Service Discovery [RFC6763] implements these three
    principal service discovery operations using DNS records and queries,
-   either using Multicast DNS [RFC6762] (for queries limited to the
-
 
 
 
@@ -282,6 +282,7 @@ Cheshire                 Expires April 26, 2019                 [Page 5]
 Internet-Draft         Service Discovery Road Map           October 2018
 
 
+   either using Multicast DNS [RFC6762] (for queries limited to the
    local link) or conventional unicast DNS [RFC1034] [RFC1035] (for
    queries beyond the local link).
 
@@ -323,7 +324,6 @@ Internet-Draft         Service Discovery Road Map           October 2018
    The available namespaces are discussed broadly in Section 4 below.
    Client operation is then discussed in detail in Section 5, and server
    operation is discussed in detail in Section 6.
-
 
 
 

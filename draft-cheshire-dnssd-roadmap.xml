@@ -39,7 +39,7 @@ Check output with <http://tools.ietf.org/tools/idnits/>
 <?rfc rfcprocack="yes" ?>
 <!-- end of list of popular I-D processing instructions -->
 
-<rfc category="info" docName="draft-cheshire-dnssd-roadmap-03" ipr="trust200902">
+<rfc category="info" docName="draft-cheshire-dnssd-roadmap-04" ipr="trust200902">
 
   <front>
     <title abbrev='Service Discovery Road Map'>Service Discovery Road Map</title>
@@ -252,6 +252,8 @@ Check output with <http://tools.ietf.org/tools/idnits/>
       <t>To give a concrete example, clicking the “+” button in the printer settings on macOS
       is an operation performing the second step.
       It is requesting the names of all available printers.
+      From this list the user can select one or more printers they intend to use later,
+      and create print queues on their computer for those chosen printers.
       Depending on the specific use case, this step may be performed only rarely.
       For example, a user may do this just one once, the first time they
       configure their computer to use their preferred printer, and never again.</t>
